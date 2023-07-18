@@ -13,7 +13,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddDbContext<AlphaContext>
     (options => options.UseMySQL(builder.Configuration.GetConnectionString("dbConnection")));
-builder.Services.AddTransient<IEntry, EntryRepository>();
+builder.Services.AddTransient<IEntryRepository, EntryRepository>();
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle

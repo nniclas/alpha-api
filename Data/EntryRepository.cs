@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace alpha_api.Data
 {
-    public class EntryRepository : IEntry
+    public class EntryRepository : IEntryRepository
     {
         readonly AlphaContext context = new();
 
@@ -70,19 +70,32 @@ namespace alpha_api.Data
             }
         }
 
-        public void DeleteEntry(int id)
+        public Entry DeleteEntry(int id)
         {
             try
             {
-                Entry? entry = context.Entries.Find(id);                
-                context.Entries.Remove(entry);
-                context.SaveChanges();
-                
+
+                var entry = context.Entries.Find(id);
+                if (entry != null)
+                {
+                    context.Entries.Remove(entry);
+                    context.SaveChanges();
+                    return entry;
+                }
+                else
+                {
+                    throw new ArgumentNullException();
+                }
             }
             catch
             {
                 throw;
             }
+        }
+
+        public bool CheckEntry(int id)
+        {
+            return context.Entries.Any(e => e.Id == id);
         }
     }
 }
