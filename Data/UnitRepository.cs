@@ -3,20 +3,20 @@ using Microsoft.EntityFrameworkCore;
 
 namespace alpha_api.Data
 {
-    public class EntryRepository : IEntryRepository
+    public class UnitRepository : IUnitRepository
     {
         readonly AlphaContext context = new();
 
-        public EntryRepository(AlphaContext context)
+        public UnitRepository(AlphaContext context)
         {
             this.context = context;
         }
 
-        public List<Entry> GetAll()
+        public List<Unit> GetAll()
         {
             try
             {
-                return context.Entries.ToList();
+                return context.Units.ToList();
             }
             catch
             {
@@ -24,14 +24,14 @@ namespace alpha_api.Data
             }
         }
 
-        public Entry Get(int id)
+        public Unit Get(int id)
         {
             try
             {
-                Entry? entry = context.Entries.Find(id);
-                if (entry != null)
+                Unit? unit = context.Units.Find(id);
+                if (unit != null)
                 {
-                    return entry;
+                    return unit;
                 }
                 else
                 {
@@ -44,11 +44,11 @@ namespace alpha_api.Data
             }
         }
 
-        public void Add(Entry entry)
+        public void Add(Unit unit)
         {
             try
             {
-                context.Entries.Add(entry);
+                context.Units.Add(unit);
                 context.SaveChanges();
             }
             catch
@@ -57,11 +57,11 @@ namespace alpha_api.Data
             }
         }
 
-        public void Update(Entry entry)
+        public void Update(Unit unit)
         {
             try
             {
-                context.Entry(entry).State = EntityState.Modified;
+                context.Entry(unit).State = EntityState.Modified;
                 context.SaveChanges();
             }
             catch
@@ -70,17 +70,17 @@ namespace alpha_api.Data
             }
         }
 
-        public Entry Delete(int id)
+        public Unit Delete(int id)
         {
             try
             {
 
-                var entry = context.Entries.Find(id);
-                if (entry != null)
+                var unit = context.Units.Find(id);
+                if (unit != null)
                 {
-                    context.Entries.Remove(entry);
+                    context.Units.Remove(unit);
                     context.SaveChanges();
-                    return entry;
+                    return unit;
                 }
                 else
                 {
@@ -95,7 +95,7 @@ namespace alpha_api.Data
 
         public bool Exists(int id)
         {
-            return context.Entries.Any(e => e.Id == id);
+            return context.Units.Any(e => e.Id == id);
         }
     }
 }

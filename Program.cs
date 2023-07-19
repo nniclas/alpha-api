@@ -1,5 +1,6 @@
 using alpha_api.Data;
 using alpha_api.Models;
+using alpha_api.Services;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
@@ -14,6 +15,13 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddDbContext<AlphaContext>
     (options => options.UseMySQL(builder.Configuration.GetConnectionString("dbConnection")));
 builder.Services.AddTransient<IEntryRepository, EntryRepository>();
+builder.Services.AddTransient<IUnitRepository, UnitRepository>();
+builder.Services.AddTransient<IEventRepository, EventRepository>();
+builder.Services.AddTransient<IUserRepository, UserRepository>();
+builder.Services.AddTransient<IEntryService, EntryService>();
+builder.Services.AddTransient<IUnitService, UnitService>();
+builder.Services.AddTransient<IEventService, EventService>();
+builder.Services.AddTransient<IUserService, UserService>();
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle

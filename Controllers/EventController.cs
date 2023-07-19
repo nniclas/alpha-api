@@ -11,50 +11,50 @@ namespace alpha_api.Controllers
     [ApiController]
     [Route("[controller]")]
     //[RequiredScope(RequiredScopesConfigurationKey = "AzureAd:Scopes")]
-    public class EntryController : ControllerBase
+    public class EventController : ControllerBase
     {
-        private readonly IEntryService service;
+        private readonly IEventService service;
 
-        public EntryController(IEntryService service)
+        public EventController(IEventService service)
         {
             this.service = service;
         }
 
-        // GET: api/entries
+        // GET: api/events
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Entry>>> Get()
+        public async Task<ActionResult<IEnumerable<Event>>> Get()
         {
             return await Task.FromResult(this.service.GetAll());
         }
 
-        // GET api/entries/4
+        // GET api/events/4
         [HttpGet("{id}")]
-        public async Task<ActionResult<Entry>> Get(int id)
+        public async Task<ActionResult<Event>> Get(int id)
         {
-            var entry = await Task.FromResult(service.Get(id));
-            if (entry == null)
+            var ev = await Task.FromResult(service.Get(id));
+            if (ev == null)
             {
                 return NotFound();
             }
-            return entry;
+            return ev;
         }
 
-        // POST api/entries
+        // POST api/events
         [HttpPost]
-        public async Task<ActionResult<Entry>> Post(Entry entry)
+        public async Task<ActionResult<Event>> Post(Event ev)
         {
-            service.Add(entry);
-            return await Task.FromResult(entry);
+            service.Add(ev);
+            return await Task.FromResult(ev);
         }
 
-        // PUT api/entries/4
+        // PUT api/events/4
         [HttpPut("{id}")]
-        public async Task<ActionResult<Entry>> Put(int id, Entry entry)
+        public async Task<ActionResult<Event>> Put(int id, Event ev)
         {
-            if (id != entry.Id)
+            if (id != ev.Id)
                 return BadRequest();
             
-           service.Update(entry);
+           service.Update(ev);
 
             //try
             //{
@@ -71,10 +71,10 @@ namespace alpha_api.Controllers
             //        throw;
             //    }
             //}
-            return await Task.FromResult(entry);
+            return await Task.FromResult(ev);
         }
 
-        // DELETE api/entries/4
+        // DELETE api/events/4
         [HttpDelete("{id}")]
         public async Task Delete(int id)
         {

@@ -11,50 +11,50 @@ namespace alpha_api.Controllers
     [ApiController]
     [Route("[controller]")]
     //[RequiredScope(RequiredScopesConfigurationKey = "AzureAd:Scopes")]
-    public class EntryController : ControllerBase
+    public class UnitController : ControllerBase
     {
-        private readonly IEntryService service;
+        private readonly IUnitService service;
 
-        public EntryController(IEntryService service)
+        public UnitController(IUnitService service)
         {
             this.service = service;
         }
 
-        // GET: api/entries
+        // GET: api/units
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Entry>>> Get()
+        public async Task<ActionResult<IEnumerable<Unit>>> Get()
         {
             return await Task.FromResult(this.service.GetAll());
         }
 
-        // GET api/entries/4
+        // GET api/units/4
         [HttpGet("{id}")]
-        public async Task<ActionResult<Entry>> Get(int id)
+        public async Task<ActionResult<Unit>> Get(int id)
         {
-            var entry = await Task.FromResult(service.Get(id));
-            if (entry == null)
+            var unit = await Task.FromResult(service.Get(id));
+            if (unit == null)
             {
                 return NotFound();
             }
-            return entry;
+            return unit;
         }
 
-        // POST api/entries
+        // POST api/units
         [HttpPost]
-        public async Task<ActionResult<Entry>> Post(Entry entry)
+        public async Task<ActionResult<Unit>> Post(Unit unit)
         {
-            service.Add(entry);
-            return await Task.FromResult(entry);
+            service.Add(unit);
+            return await Task.FromResult(unit);
         }
 
-        // PUT api/entries/4
+        // PUT api/units/4
         [HttpPut("{id}")]
-        public async Task<ActionResult<Entry>> Put(int id, Entry entry)
+        public async Task<ActionResult<Unit>> Put(int id, Unit unit)
         {
-            if (id != entry.Id)
+            if (id != unit.Id)
                 return BadRequest();
             
-           service.Update(entry);
+           service.Update(unit);
 
             //try
             //{
@@ -71,10 +71,10 @@ namespace alpha_api.Controllers
             //        throw;
             //    }
             //}
-            return await Task.FromResult(entry);
+            return await Task.FromResult(unit);
         }
 
-        // DELETE api/entries/4
+        // DELETE api/units/4
         [HttpDelete("{id}")]
         public async Task Delete(int id)
         {

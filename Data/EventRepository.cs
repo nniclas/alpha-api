@@ -3,20 +3,20 @@ using Microsoft.EntityFrameworkCore;
 
 namespace alpha_api.Data
 {
-    public class EntryRepository : IEntryRepository
+    public class EventRepository : IEventRepository
     {
         readonly AlphaContext context = new();
 
-        public EntryRepository(AlphaContext context)
+        public EventRepository(AlphaContext context)
         {
             this.context = context;
         }
 
-        public List<Entry> GetAll()
+        public List<Event> GetAll()
         {
             try
             {
-                return context.Entries.ToList();
+                return context.Events.ToList();
             }
             catch
             {
@@ -24,14 +24,14 @@ namespace alpha_api.Data
             }
         }
 
-        public Entry Get(int id)
+        public Event Get(int id)
         {
             try
             {
-                Entry? entry = context.Entries.Find(id);
-                if (entry != null)
+                Event? ev = context.Events.Find(id);
+                if (ev != null)
                 {
-                    return entry;
+                    return ev;
                 }
                 else
                 {
@@ -44,11 +44,11 @@ namespace alpha_api.Data
             }
         }
 
-        public void Add(Entry entry)
+        public void Add(Event Event)
         {
             try
             {
-                context.Entries.Add(entry);
+                context.Events.Add(Event);
                 context.SaveChanges();
             }
             catch
@@ -57,11 +57,11 @@ namespace alpha_api.Data
             }
         }
 
-        public void Update(Entry entry)
+        public void Update(Event ev)
         {
             try
             {
-                context.Entry(entry).State = EntityState.Modified;
+                context.Entry(ev).State = EntityState.Modified;
                 context.SaveChanges();
             }
             catch
@@ -70,17 +70,17 @@ namespace alpha_api.Data
             }
         }
 
-        public Entry Delete(int id)
+        public Event Delete(int id)
         {
             try
             {
 
-                var entry = context.Entries.Find(id);
-                if (entry != null)
+                var ev = context.Events.Find(id);
+                if (ev != null)
                 {
-                    context.Entries.Remove(entry);
+                    context.Events.Remove(ev);
                     context.SaveChanges();
-                    return entry;
+                    return ev;
                 }
                 else
                 {
@@ -95,7 +95,7 @@ namespace alpha_api.Data
 
         public bool Exists(int id)
         {
-            return context.Entries.Any(e => e.Id == id);
+            return context.Events.Any(e => e.Id == id);
         }
     }
 }
