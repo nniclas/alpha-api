@@ -9,7 +9,7 @@ namespace alpha_api.Controllers
 {
     //[Authorize]
     [ApiController]
-    [Route("[controller]")]
+    [Route("units")]
     //[RequiredScope(RequiredScopesConfigurationKey = "AzureAd:Scopes")]
     public class UnitController : ControllerBase
     {
@@ -20,14 +20,12 @@ namespace alpha_api.Controllers
             this.service = service;
         }
 
-        // GET: api/units
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Unit>>> Get()
         {
             return await Task.FromResult(this.service.GetAll());
         }
 
-        // GET api/units/4
         [HttpGet("{id}")]
         public async Task<ActionResult<Unit>> Get(int id)
         {
@@ -39,7 +37,6 @@ namespace alpha_api.Controllers
             return unit;
         }
 
-        // POST api/units
         [HttpPost]
         public async Task<ActionResult<Unit>> Post(Unit unit)
         {
@@ -47,7 +44,6 @@ namespace alpha_api.Controllers
             return await Task.FromResult(unit);
         }
 
-        // PUT api/units/4
         [HttpPut("{id}")]
         public async Task<ActionResult<Unit>> Put(int id, Unit unit)
         {
@@ -74,7 +70,6 @@ namespace alpha_api.Controllers
             return await Task.FromResult(unit);
         }
 
-        // DELETE api/units/4
         [HttpDelete("{id}")]
         public async Task Delete(int id)
         {

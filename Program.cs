@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
+using System.Diagnostics;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -12,8 +13,22 @@ var builder = WebApplication.CreateBuilder(args);
 //builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
 //    .AddJwtBearer();
 
+
+// https://stackoverflow.com/questions/44249263/optional-appsettings-local-json-in-new-format-visual-studio-project
+var cf = new ConfigurationBuilder();
+cf.SetBasePath(builder.Environment.ContentRootPath);
+//.AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
+//.AddJsonFile("appsettings.local.json", optional: true, reloadOnChange: true)
+//.AddJsonFile($"appsettings.{app.Environment.EnvironmentName}.json", optional: true)
+if (builder.Environment.EnvironmentName == "Development")
+    cf.AddJsonFile("appsettings.local.json", optional: true, reloadOnChange: true);
+else
+    cf.AddJsonFile("appsettings.json", optional: false, reloadOnChange: true);
+cf.AddEnvironmentVariables();
+var configuration = cf.Build();
+
 builder.Services.AddDbContext<AlphaContext>
-    (options => options.UseMySQL(builder.Configuration.GetConnectionString("dbConnection")));
+    (options => options.UseMySQL(configuration.GetConnectionString("AlphaDatabase")));
 builder.Services.AddTransient<IEntryRepository, EntryRepository>();
 builder.Services.AddTransient<IUnitRepository, UnitRepository>();
 builder.Services.AddTransient<IEventRepository, EventRepository>();
@@ -36,15 +51,6 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
-
-// https://stackoverflow.com/questions/44249263/optional-appsettings-local-json-in-new-format-visual-studio-project
-var cf = new ConfigurationBuilder();
-cf.SetBasePath(app.Environment.ContentRootPath)
-   .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
-   .AddJsonFile("appsettings.local.json", optional: true, reloadOnChange: true)
-   .AddJsonFile($"appsettings.{app.Environment.EnvironmentName}.json", optional: true)
-   .AddEnvironmentVariables();
-cf.Build();
 
 app.UseHttpsRedirection();
 

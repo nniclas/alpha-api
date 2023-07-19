@@ -9,7 +9,7 @@ namespace alpha_api.Controllers
 {
     //[Authorize]
     [ApiController]
-    [Route("[controller]")]
+    [Route("entries")]
     //[RequiredScope(RequiredScopesConfigurationKey = "AzureAd:Scopes")]
     public class EntryController : ControllerBase
     {
@@ -20,14 +20,12 @@ namespace alpha_api.Controllers
             this.service = service;
         }
 
-        // GET: api/entries
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Entry>>> Get()
         {
             return await Task.FromResult(this.service.GetAll());
         }
 
-        // GET api/entries/4
         [HttpGet("{id}")]
         public async Task<ActionResult<Entry>> Get(int id)
         {
@@ -39,7 +37,6 @@ namespace alpha_api.Controllers
             return entry;
         }
 
-        // POST api/entries
         [HttpPost]
         public async Task<ActionResult<Entry>> Post(Entry entry)
         {
@@ -47,7 +44,6 @@ namespace alpha_api.Controllers
             return await Task.FromResult(entry);
         }
 
-        // PUT api/entries/4
         [HttpPut("{id}")]
         public async Task<ActionResult<Entry>> Put(int id, Entry entry)
         {
@@ -74,7 +70,6 @@ namespace alpha_api.Controllers
             return await Task.FromResult(entry);
         }
 
-        // DELETE api/entries/4
         [HttpDelete("{id}")]
         public async Task Delete(int id)
         {

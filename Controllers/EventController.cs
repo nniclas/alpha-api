@@ -9,7 +9,7 @@ namespace alpha_api.Controllers
 {
     //[Authorize]
     [ApiController]
-    [Route("[controller]")]
+    [Route("events")]
     //[RequiredScope(RequiredScopesConfigurationKey = "AzureAd:Scopes")]
     public class EventController : ControllerBase
     {
@@ -20,14 +20,12 @@ namespace alpha_api.Controllers
             this.service = service;
         }
 
-        // GET: api/events
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Event>>> Get()
         {
             return await Task.FromResult(this.service.GetAll());
         }
 
-        // GET api/events/4
         [HttpGet("{id}")]
         public async Task<ActionResult<Event>> Get(int id)
         {
@@ -39,7 +37,6 @@ namespace alpha_api.Controllers
             return ev;
         }
 
-        // POST api/events
         [HttpPost]
         public async Task<ActionResult<Event>> Post(Event ev)
         {
@@ -47,7 +44,6 @@ namespace alpha_api.Controllers
             return await Task.FromResult(ev);
         }
 
-        // PUT api/events/4
         [HttpPut("{id}")]
         public async Task<ActionResult<Event>> Put(int id, Event ev)
         {
@@ -74,7 +70,6 @@ namespace alpha_api.Controllers
             return await Task.FromResult(ev);
         }
 
-        // DELETE api/events/4
         [HttpDelete("{id}")]
         public async Task Delete(int id)
         {

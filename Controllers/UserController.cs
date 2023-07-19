@@ -9,7 +9,7 @@ namespace alpha_api.Controllers
 {
     //[Authorize]
     [ApiController]
-    [Route("[controller]")]
+    [Route("users")]
     //[RequiredScope(RequiredScopesConfigurationKey = "AzureAd:Scopes")]
     public class UserController : ControllerBase
     {
@@ -20,14 +20,12 @@ namespace alpha_api.Controllers
             this.service = service;
         }
 
-        // GET: api/users
         [HttpGet]
         public async Task<ActionResult<IEnumerable<User>>> Get()
         {
             return await Task.FromResult(this.service.GetAll());
         }
 
-        // GET api/users/4
         [HttpGet("{id}")]
         public async Task<ActionResult<User>> Get(int id)
         {
