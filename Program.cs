@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
+using System.Configuration;
 using System.Diagnostics;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -15,20 +16,15 @@ var builder = WebApplication.CreateBuilder(args);
 
 
 // https://stackoverflow.com/questions/44249263/optional-appsettings-local-json-in-new-format-visual-studio-project
-var cf = new ConfigurationBuilder();
-cf.SetBasePath(builder.Environment.ContentRootPath);
-//.AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
-//.AddJsonFile("appsettings.local.json", optional: true, reloadOnChange: true)
-//.AddJsonFile($"appsettings.{app.Environment.EnvironmentName}.json", optional: true)
-if (builder.Environment.EnvironmentName == "Development")
-    cf.AddJsonFile("appsettings.local.json", optional: true, reloadOnChange: true);
-else
-    cf.AddJsonFile("appsettings.json", optional: false, reloadOnChange: true);
-cf.AddEnvironmentVariables();
-var configuration = cf.Build();
+var config = new ConfigurationBuilder()
+    .AddJsonFile($"appsettings.{builder.Environment.EnvironmentName}.json", optional: true)
+    .AddEnvironmentVariables()
+    .Build();
+
+builder.Services.AddSingleton<IConfiguration>(config);
 
 builder.Services.AddDbContext<AlphaContext>
-    (options => options.UseMySQL(configuration.GetConnectionString("AlphaDatabase")));
+    (options => options.UseMySQL(config.GetConnectionString("AlphaDatabase")));
 builder.Services.AddTransient<IEntryRepository, EntryRepository>();
 builder.Services.AddTransient<IUnitRepository, UnitRepository>();
 builder.Services.AddTransient<IEventRepository, EventRepository>();

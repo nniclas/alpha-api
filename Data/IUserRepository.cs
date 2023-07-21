@@ -6,5 +6,6 @@ namespace alpha_api.Data
     {
         public List<User> GetAll();
         public User Get(int id);
+        public User GetByEmail(string email);
     }
 }

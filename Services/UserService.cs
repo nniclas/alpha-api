@@ -25,5 +25,10 @@ namespace alpha_api.Services
         {
             return repository.Get(id);
         }
+
+        public User GetByEmail(string email)
+        {
+            return repository.GetByEmail(email);
+        }
     }
 }

@@ -28,7 +28,27 @@ namespace alpha_api.Data
         {
             try
             {
-                User? user = context.Users.Find(id);
+                var user = context.Users.Find(id);
+                if (user != null)
+                {
+                    return user;
+                }
+                else
+                {
+                    throw new ArgumentNullException();
+                }
+            }
+            catch
+            {
+                throw;
+            }
+        }
+
+        public User GetByEmail(string email)
+        {
+            try
+            {
+                var user = context.Users.SingleOrDefault((u) => u.Email == email);
                 if (user != null)
                 {
                     return user;
