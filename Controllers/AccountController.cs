@@ -16,7 +16,6 @@ namespace alpha_api.Controllers
 {
     //[Authorize]
     [ApiController]
-    [Route("account")]
     //[RequiredScope(RequiredScopesConfigurationKey = "AzureAd:Scopes")]
     public class AccountController : ControllerBase
     {
@@ -30,8 +29,8 @@ namespace alpha_api.Controllers
         }
 
         [HttpPost]
-        [Route("signIn")]
-        public async Task<IActionResult> Post(SignInRequest request)
+        [Route("account/signin")]
+        public async Task<IActionResult> SignIn(SignInRequest request)
         {
             var user = this.userService.GetByEmail(request.Email);
             if (user == null || request.Email == null || request.Password == null)
