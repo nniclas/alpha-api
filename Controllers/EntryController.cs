@@ -26,6 +26,12 @@ namespace alpha_api.Controllers
             return await Task.FromResult(this.service.GetAll());
         }
 
+        [HttpGet("byUnit/{unitId}")]
+        public async Task<ActionResult<IEnumerable<Entry>>> GetByUnitId(int unitId)
+        {
+            return await Task.FromResult(this.service.GetAllByUnitId(unitId));
+        }
+
         [HttpGet("{id}")]
         public async Task<ActionResult<Entry>> Get(int id)
         {

@@ -21,6 +21,11 @@ namespace alpha_api.Services
             return this.entryRepository.GetAll();
         }
 
+        public List<Entry> GetAllByUnitId(int unitId)
+        {
+            return this.entryRepository.GetAllByUnitId(unitId);
+        }
+        
         public Entry Get(int id)
         {
             return entryRepository.Get(id);

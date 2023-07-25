@@ -16,7 +16,26 @@ namespace alpha_api.Data
         {
             try
             {
-                return context.Entries.Include((x) => x.Unit).ToList();
+                return context.Entries
+                    .Include((x) => x.User)
+                    .Include((x) => x.Unit)
+                    .ToList();
+            }
+            catch
+            {
+                throw;
+            }
+        }
+
+        public List<Entry> GetAllByUnitId(int unitId)
+        {
+            try
+            {
+                return context.Entries
+                    .Where((e) => e.UnitId == unitId)
+                    .Include((x) => x.User)
+                    .Include((x) => x.Unit)
+                    .ToList();
             }
             catch
             {
