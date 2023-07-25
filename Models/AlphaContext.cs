@@ -1,4 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using System;
+using System.Diagnostics;
 
 namespace alpha_api.Models
 {
@@ -22,7 +24,7 @@ namespace alpha_api.Models
             modelBuilder.Entity<User>(entity =>
             {
                 entity.ToTable("users");
-                entity.HasIndex(u => u.Id).IsUnique();
+                entity.HasIndex(e => e.Id).IsUnique();
                 //entity.Property(e => e.Id).HasColumnName("id");
                 entity.Property(e => e.Email).HasMaxLength(100).IsUnicode(false);
                 entity.Property(e => e.RegisterDate).IsUnicode(false);
@@ -32,7 +34,7 @@ namespace alpha_api.Models
             modelBuilder.Entity<Unit>(entity =>
             {
                 entity.ToTable("units");
-                entity.HasIndex(u => u.Id).IsUnique();
+                entity.HasIndex(e => e.Id).IsUnique();
                 //entity.Property(e => e.Id).HasColumnName("id");
                 entity.Property(e => e.Name).HasMaxLength(45).IsUnicode(false);
                 entity.Property(e => e.State).IsUnicode(false);
@@ -41,16 +43,19 @@ namespace alpha_api.Models
             modelBuilder.Entity<Entry>(entity =>
             {
                 entity.ToTable("entries");
-                entity.HasIndex(u => u.Id).IsUnique();
-                entity.HasOne<Unit>().WithMany();
-                entity.HasOne<User>().WithMany();
-                //entity.Property(e => e.Id).HasColumnName("id");
+                entity.HasIndex(e => e.Id).IsUnique();
+                entity.HasOne(e => e.Unit).WithMany(u => u.Entries).HasForeignKey(e => e.UnitId);
+                entity.HasOne(e => e.User).WithMany(u => u.Entries).HasForeignKey(e => e.UserId);
                 entity.Property(e => e.UnitId).IsUnicode(false);
                 entity.Property(e => e.UserId).IsUnicode(false);
                 entity.Property(e => e.Event).IsUnicode(false);
                 entity.Property(e => e.Measure).IsUnicode(false);
                 entity.Property(e => e.Tag).HasMaxLength(45).IsUnicode(false);
                 entity.Property(e => e.Notes).HasMaxLength(500).IsUnicode(false);
+
+
+                
+
             });
 
             OnModelCreatingPartial(modelBuilder);

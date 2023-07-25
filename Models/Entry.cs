@@ -9,13 +9,13 @@ namespace alpha_api.Models
         public int UnitId { get; set; }
         public int? UserId { get; set; }
         public Event Event { get; set; }
-        public EntryMeasure? Measure { get; set; }
-        public EntryTag Tag { get; set; }
+        public Measure? Measure { get; set; }
+        public Tag Tag { get; set; }
         public string? Notes { get; set; }
 
-        [NotMapped]
-        public Unit Unit { get; set; }
-        [NotMapped]
-        public User User { get; set; }
+        //[NotMapped]
+        public Unit? Unit { get; set; }
+        //[NotMapped]
+        public User? User { get; set; }
     }
 }

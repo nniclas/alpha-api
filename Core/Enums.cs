@@ -1,7 +1,7 @@
 ﻿namespace alpha_api.Core.Enums
 {
 
-    public enum UnitState
+    public enum State
     {
         IDLE,
         NORMAL_OPERATION,
@@ -10,14 +10,14 @@
         DISENGAGED
     }
 
-    public enum EntryMeasure
+    public enum Measure
     {
         IGNORE,
         FOLLOW_UP,
         RESTORE,
     }
 
-    public enum EntryTag
+    public enum Tag
     { 
         PERIODIC_INTEGRITY_CHECK,
         MONTHLY_FIELD_TEST,

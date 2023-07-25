@@ -16,7 +16,7 @@ namespace alpha_api.Data
         {
             try
             {
-                return context.Entries.ToList();
+                return context.Entries.Include((x) => x.Unit).ToList();
             }
             catch
             {
