@@ -9,26 +9,26 @@ namespace alpha_api.Services
 
     public class EntryService : IEntryService
     {
-        private readonly IEntryRepository repository;
+        private readonly IEntryRepository entryRepository;
 
-        public EntryService(IEntryRepository repository)
+        public EntryService(IEntryRepository entryRepository)
         {
-            this.repository = repository;
+            this.entryRepository = entryRepository;
         }
 
         public List<Entry> GetAll()
         {
-            return this.repository.GetAll();
+            return this.entryRepository.GetAll();
         }
 
         public Entry Get(int id)
         {
-            return repository.Get(id);
+            return entryRepository.Get(id);
         }
 
         public bool Add(Entry entry)
         {
-            repository.Add(entry);
+            entryRepository.Add(entry);
             return true;
         }
 
@@ -36,11 +36,11 @@ namespace alpha_api.Services
         {
             try
             {
-                repository.Update(entry);
+                entryRepository.Update(entry);
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!repository.Exists(entry.Id))
+                if (!entryRepository.Exists(entry.Id))
                     return false;
                 throw;
             }
@@ -49,7 +49,7 @@ namespace alpha_api.Services
             
         public Entry Delete(int id) 
         { 
-            return repository.Delete(id); 
+            return entryRepository.Delete(id); 
         }
 
 
