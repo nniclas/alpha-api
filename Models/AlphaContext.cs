@@ -35,7 +35,7 @@ namespace alpha_api.Models
             {
                 entity.ToTable("units");
                 entity.HasIndex(e => e.Id).IsUnique();
-                //entity.Property(e => e.Id).HasColumnName("id");
+                entity.Property(e => e.MachineId).HasMaxLength(36).IsUnicode(false);
                 entity.Property(e => e.Name).HasMaxLength(45).IsUnicode(false);
                 entity.Property(e => e.State).IsUnicode(false);
             });
@@ -52,10 +52,7 @@ namespace alpha_api.Models
                 entity.Property(e => e.Measure).IsUnicode(false);
                 entity.Property(e => e.Tag).HasMaxLength(45).IsUnicode(false);
                 entity.Property(e => e.Notes).HasMaxLength(500).IsUnicode(false);
-
-
-                
-
+                entity.Property(e => e.Date).IsUnicode(false);
             });
 
             OnModelCreatingPartial(modelBuilder);

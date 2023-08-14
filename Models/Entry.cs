@@ -12,6 +12,7 @@ namespace alpha_api.Models
         public Measure? Measure { get; set; }
         public Tag Tag { get; set; }
         public string? Notes { get; set; }
+        public DateTime Date { get; set; }
 
         //[NotMapped]
         public Unit? Unit { get; set; }
