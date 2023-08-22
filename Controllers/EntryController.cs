@@ -32,7 +32,7 @@ namespace alpha_api.Controllers
             return await Task.FromResult(this.service.GetAllByUnit(unitId));
         }
 
-        [HttpGet("unit/{unitId}/week/")]
+        [HttpGet("unit/{unitId}/week/{week}")]
         public async Task<ActionResult<IEnumerable<Entry>>> GetByUnitAndWeek(int unitId, string week)
         {
             return await Task.FromResult(this.service.GetAllByUnitAndWeek(unitId, week));
@@ -42,10 +42,7 @@ namespace alpha_api.Controllers
         public async Task<ActionResult<Entry>> Get(int id)
         {
             var entry = await Task.FromResult(service.Get(id));
-            if (entry == null)
-            {
-                return NotFound();
-            }
+            if (entry == null) return NotFound();
             return entry;
         }
 

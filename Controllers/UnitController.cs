@@ -30,10 +30,7 @@ namespace alpha_api.Controllers
         public async Task<ActionResult<Unit>> Get(int id)
         {
             var unit = await Task.FromResult(service.Get(id));
-            if (unit == null)
-            {
-                return NotFound();
-            }
+            if (unit == null) return NotFound();
             return unit;
         }
 
