@@ -9,9 +9,9 @@ namespace alpha_api.Services
 
     public class UnitService : IUnitService
     {
-        private readonly IUnitRepository repository;
+        private readonly IRepository<Unit> repository;
 
-        public UnitService(IUnitRepository repository)
+        public UnitService(IRepository<Unit> repository)
         {
             this.repository = repository;
         }

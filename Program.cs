@@ -26,8 +26,8 @@ builder.Services.AddSingleton<IConfiguration>(config);
 
 builder.Services.AddDbContext<AlphaContext>
     (options => options.UseMySQL(config.GetConnectionString("AlphaDatabase")));
-builder.Services.AddTransient<IEntryRepository, EntryRepository>();
-builder.Services.AddTransient<IUnitRepository, UnitRepository>();
+builder.Services.AddTransient<IRepository<Entry>, EntryRepository>();
+builder.Services.AddTransient<IRepository<Unit>, UnitRepository>();
 builder.Services.AddTransient<IUserRepository, UserRepository>();
 builder.Services.AddTransient<IEntryService, EntryService>();
 builder.Services.AddTransient<IUnitService, UnitService>();
