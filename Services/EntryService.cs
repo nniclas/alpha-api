@@ -1,6 +1,9 @@
 ﻿using alpha_api.Data;
 using alpha_api.Models;
+using alpha_api.Core;
 using Microsoft.EntityFrameworkCore;
+using System.Globalization;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace alpha_api.Services
 {
@@ -9,23 +12,32 @@ namespace alpha_api.Services
 
     public class EntryService : IEntryService
     {
-        private readonly IEntryRepository entryRepository;
+        private readonly IRepository<Entry> entryRepository;
 
-        public EntryService(IEntryRepository entryRepository)
+        public EntryService(IRepository<Entry> entryRepository)
         {
             this.entryRepository = entryRepository;
         }
 
         public List<Entry> GetAll()
         {
-            return this.entryRepository.GetAll();
+            return this.entryRepository.GetAll().ToList();
         }
 
-        public List<Entry> GetAllByUnitId(int unitId)
+        public List<Entry> GetAllByUnit(int unitId)
         {
-            return this.entryRepository.GetAllByUnitId(unitId);
+            return this.entryRepository.Query((e) => e.UnitId == unitId).ToList();
         }
-        
+
+        public List<Entry> GetAllByUnitAndWeek(int unitId, string week)
+        {
+            return this.entryRepository.Query((e) => 
+                e.UnitId == unitId &&   
+                e.Date >=  week.ToDateTime(DayOfWeek.Sunday) && 
+                e.Date <= week.ToDateTime(DayOfWeek.Saturday))
+                .ToList();
+        }
+
         public Entry Get(int id)
         {
             return entryRepository.Get(id);
@@ -33,7 +45,7 @@ namespace alpha_api.Services
 
         public bool Add(Entry entry)
         {
-            entryRepository.Add(entry);
+            entryRepository.Create(entry);
             return true;
         }
 
@@ -52,7 +64,7 @@ namespace alpha_api.Services
             return true;
         }
             
-        public Entry Delete(int id) 
+        public bool Delete(int id) 
         { 
             return entryRepository.Delete(id); 
         }

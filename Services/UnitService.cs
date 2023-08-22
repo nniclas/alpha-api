@@ -18,7 +18,7 @@ namespace alpha_api.Services
 
         public List<Unit> GetAll()
         {
-            return this.repository.GetAll();
+            return this.repository.GetAll().ToList();
         }
 
         public Unit Get(int id)
@@ -28,7 +28,7 @@ namespace alpha_api.Services
 
         public bool Add(Unit unit)
         {
-            repository.Add(unit);
+            repository.Create(unit);
             return true;
         }
 
@@ -47,7 +47,7 @@ namespace alpha_api.Services
             return true;
         }
             
-        public Unit Delete(int id) 
+        public bool Delete(int id) 
         { 
             return repository.Delete(id); 
         }

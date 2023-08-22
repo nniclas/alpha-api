@@ -26,10 +26,16 @@ namespace alpha_api.Controllers
             return await Task.FromResult(this.service.GetAll());
         }
 
-        [HttpGet("byUnit/{unitId}")]
-        public async Task<ActionResult<IEnumerable<Entry>>> GetByUnitId(int unitId)
+        [HttpGet("unit/{unitId}")]
+        public async Task<ActionResult<IEnumerable<Entry>>> GetByUnit(int unitId)
         {
-            return await Task.FromResult(this.service.GetAllByUnitId(unitId));
+            return await Task.FromResult(this.service.GetAllByUnit(unitId));
+        }
+
+        [HttpGet("unit/{unitId}/week/")]
+        public async Task<ActionResult<IEnumerable<Entry>>> GetByUnitAndWeek(int unitId, string week)
+        {
+            return await Task.FromResult(this.service.GetAllByUnitAndWeek(unitId, week));
         }
 
         [HttpGet("{id}")]

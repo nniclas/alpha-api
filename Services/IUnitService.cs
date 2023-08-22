@@ -8,6 +8,6 @@ namespace alpha_api.Services
         Unit Get(int id);
         bool Add(Unit unit);
         bool Update(Unit unit);
-        Unit Delete(int id);
+        bool Delete(int id);
     }
 }

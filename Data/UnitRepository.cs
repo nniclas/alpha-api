@@ -1,5 +1,6 @@
 ﻿using alpha_api.Models;
 using Microsoft.EntityFrameworkCore;
+using System.Linq.Expressions;
 
 namespace alpha_api.Data
 {
@@ -10,18 +11,6 @@ namespace alpha_api.Data
         public UnitRepository(AlphaContext context)
         {
             this.context = context;
-        }
-
-        public List<Unit> GetAll()
-        {
-            try
-            {
-                return context.Units.ToList();
-            }
-            catch
-            {
-                throw;
-            }
         }
 
         public Unit Get(int id)
@@ -44,12 +33,39 @@ namespace alpha_api.Data
             }
         }
 
-        public void Add(Unit unit)
+        public IEnumerable<Unit> GetAll()
+        {
+            try
+            {
+                return context.Units.ToList();
+            }
+            catch
+            {
+                throw;
+            }
+        }
+
+        public IEnumerable<Unit> Query(Expression<Func<Unit, bool>> predicate)
+        {
+            try
+            {
+                return context.Units
+                    .Where(predicate)
+                    .ToList();
+            }
+            catch
+            {
+                throw;
+            }
+        }
+
+        public bool Create(Unit unit)
         {
             try
             {
                 context.Units.Add(unit);
                 context.SaveChanges();
+                return true;
             }
             catch
             {
@@ -57,12 +73,13 @@ namespace alpha_api.Data
             }
         }
 
-        public void Update(Unit unit)
+        public bool Update(Unit unit)
         {
             try
             {
                 context.Entry(unit).State = EntityState.Modified;
                 context.SaveChanges();
+                return true;
             }
             catch
             {
@@ -70,7 +87,7 @@ namespace alpha_api.Data
             }
         }
 
-        public Unit Delete(int id)
+        public bool Delete(int id)
         {
             try
             {
@@ -80,7 +97,7 @@ namespace alpha_api.Data
                 {
                     context.Units.Remove(unit);
                     context.SaveChanges();
-                    return unit;
+                    return true;
                 }
                 else
                 {

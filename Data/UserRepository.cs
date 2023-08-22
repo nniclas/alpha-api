@@ -12,18 +12,6 @@ namespace alpha_api.Data
             this.context = context;
         }
 
-        public List<User> GetAll()
-        {
-            try
-            {
-                return context.Users.ToList();
-            }
-            catch
-            {
-                throw;
-            }
-        }
-
         public User Get(int id)
         {
             try
@@ -37,6 +25,18 @@ namespace alpha_api.Data
                 {
                     throw new ArgumentNullException();
                 }
+            }
+            catch
+            {
+                throw;
+            }
+        }
+
+        public IEnumerable<User> GetAll()
+        {
+            try
+            {
+                return context.Users.ToList();
             }
             catch
             {

@@ -1,5 +1,6 @@
 ﻿using alpha_api.Models;
 using Microsoft.EntityFrameworkCore;
+using System.Linq.Expressions;
 
 namespace alpha_api.Data
 {
@@ -10,37 +11,6 @@ namespace alpha_api.Data
         public EntryRepository(AlphaContext context)
         {
             this.context = context;
-        }
-
-        public List<Entry> GetAll()
-        {
-            try
-            {
-                return context.Entries
-                    .Include((x) => x.User)
-                    .Include((x) => x.Unit)
-                    .ToList();
-            }
-            catch
-            {
-                throw;
-            }
-        }
-
-        public List<Entry> GetAllByUnitId(int unitId)
-        {
-            try
-            {
-                return context.Entries
-                    .Where((e) => e.UnitId == unitId)
-                    .Include((x) => x.User)
-                    .Include((x) => x.Unit)
-                    .ToList();
-            }
-            catch
-            {
-                throw;
-            }
         }
 
         public Entry Get(int id)
@@ -63,12 +33,44 @@ namespace alpha_api.Data
             }
         }
 
-        public void Add(Entry entry)
+        public IEnumerable<Entry> GetAll()
+        {
+            try
+            {
+                return context.Entries
+                    .Include((x) => x.User)
+                    .Include((x) => x.Unit)
+                    .ToList();
+            }
+            catch
+            {
+                throw;
+            }
+        }
+
+        public IEnumerable<Entry> Query(Expression<Func<Entry, bool>> predicate)
+        {
+            try
+            {
+                return context.Entries
+                    .Where(predicate)
+                    .Include((x) => x.User)
+                    .Include((x) => x.Unit)
+                    .ToList();
+            }
+            catch
+            {
+                throw;
+            }
+        }
+
+        public bool Create(Entry entry)
         {
             try
             {
                 context.Entries.Add(entry);
                 context.SaveChanges();
+                return true;
             }
             catch
             {
@@ -76,12 +78,13 @@ namespace alpha_api.Data
             }
         }
 
-        public void Update(Entry entry)
+        public bool Update(Entry entry)
         {
             try
             {
                 context.Entry(entry).State = EntityState.Modified;
                 context.SaveChanges();
+                return true;
             }
             catch
             {
@@ -89,7 +92,7 @@ namespace alpha_api.Data
             }
         }
 
-        public Entry Delete(int id)
+        public bool Delete(int id)
         {
             try
             {
@@ -99,7 +102,7 @@ namespace alpha_api.Data
                 {
                     context.Entries.Remove(entry);
                     context.SaveChanges();
-                    return entry;
+                    return true;
                 }
                 else
                 {

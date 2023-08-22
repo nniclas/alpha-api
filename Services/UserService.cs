@@ -18,7 +18,7 @@ namespace alpha_api.Services
 
         public List<User> GetAll()
         {
-            return this.repository.GetAll();
+            return this.repository.GetAll().ToList();
         }
 
         public User Get(int id)

@@ -2,14 +2,15 @@
 
 namespace alpha_api.Data
 {
-    public interface IEntryRepository
+    public interface IEntryRepository : IRepository<Entry>
     {
-        public List<Entry> GetAll();
-        public List<Entry> GetAllByUnitId(int unitId);
-        public Entry Get(int id);
-        public void Add(Entry entry);
-        public void Update(Entry entry);
-        public Entry Delete(int id);
-        public bool Exists(int id);
+        //public List<Entry> GetAll();
+        //public List<Entry> GetAllByUnit(int unitId);
+        //public List<Entry> GetAllByUnitAndWeek(int unitId, string week);
+        //public Entry Get(int id);
+        //public void Add(Entry entry);
+        //public void Update(Entry entry);
+        //public void Delete(int id);
+        //public bool Exists(int id);
     }
 }
