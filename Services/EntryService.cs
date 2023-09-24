@@ -33,8 +33,8 @@ namespace alpha_api.Services
         {
             return this.entryRepository.Query((e) => 
                 e.UnitId == unitId &&   
-                e.Date >=  week.ToDateTime(DayOfWeek.Sunday) && 
-                e.Date <= week.ToDateTime(DayOfWeek.Saturday))
+                e.Date >=  week.ToDateTime(DayOfWeek.Monday) && 
+                e.Date <= week.ToDateTime(DayOfWeek.Sunday))
                 .ToList();
         }
 
