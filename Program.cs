@@ -1,3 +1,4 @@
+using alpha_api.Core.Visualization;
 using alpha_api.Data;
 using alpha_api.Models;
 using alpha_api.Services;
@@ -14,7 +15,6 @@ var builder = WebApplication.CreateBuilder(args);
 //// Add services to the container.
 //builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
 //    .AddJwtBearer();
-
 
 // https://stackoverflow.com/questions/44249263/optional-appsettings-local-json-in-new-format-visual-studio-project
 var config = new ConfigurationBuilder()
