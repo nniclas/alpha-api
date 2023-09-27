@@ -33,7 +33,7 @@ builder.Services.AddTransient<IUserRepository, UserRepository>();
 builder.Services.AddTransient<IEntryService, EntryService>();
 builder.Services.AddTransient<IUnitService, UnitService>();
 builder.Services.AddTransient<IUserService, UserService>();
-builder.Services.AddTransient<IChartService, ChartService>();
+builder.Services.AddTransient<IStatService, StatService>();
 
 builder.Services.AddControllers().AddJsonOptions(x => x.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles);
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle

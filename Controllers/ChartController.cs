@@ -13,17 +13,17 @@ namespace alpha_api.Controllers
     [ApiController]
     [Route("stats")]
     //[RequiredScope(RequiredScopesConfigurationKey = "AzureAd:Scopes")]
-    public class ChartController : ControllerBase
+    public class StatController : ControllerBase
     {
-        private readonly IChartService service;
+        private readonly IStatService service;
 
-        public ChartController(IChartService service)
+        public StatController(IStatService service)
         {
             this.service = service;
         }
 
         [HttpGet("machine/unit/{unitId}/res/{res}")]
-        public async Task<ActionResult<ChartData>> GetMachineStats(int unitId, Resolution res)
+        public async Task<ActionResult<StatData>> GetMachineStats(int unitId, Resolution res)
         {
             var today = DateTime.Parse("2023-08-14"); // replacing today, for demo purposes
 
@@ -33,7 +33,7 @@ namespace alpha_api.Controllers
         }
 
         [HttpGet("entries/unit/{unitId}/res/{res}")]
-        public async Task<ActionResult<ChartData>> GetEntryStats(int unitId, Resolution res)
+        public async Task<ActionResult<StatData>> GetEntryStats(int unitId, Resolution res)
         {
             var today = DateTime.Parse("2023-08-14"); // replacing today, for demo purposes
 

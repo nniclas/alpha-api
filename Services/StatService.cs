@@ -6,18 +6,18 @@ using Microsoft.EntityFrameworkCore;
 namespace alpha_api.Services
 {
     
-    public class ChartService : IChartService
+    public class StatService : IStatService
     {
         private readonly IRepository<Stat> statRepository;
         private readonly IRepository<Entry> entryRepository;
 
-        public ChartService(IRepository<Stat> statRepository, IRepository<Entry> entryRepository)
+        public StatService(IRepository<Stat> statRepository, IRepository<Entry> entryRepository)
         {
             this.statRepository = statRepository;
             this.entryRepository = entryRepository;
         }
 
-        public async Task<ChartData> GetMachineStatisticsAsync(int unitId, Parameters p)
+        public async Task<StatData> GetMachineStatisticsAsync(int unitId, Parameters p)
         {
             var stats = await statRepository.QueryAsync((s) => 
                 s.UnitId == unitId &&
@@ -25,14 +25,14 @@ namespace alpha_api.Services
                 s.Date > p.Date.From(p.Resolution) && s.Date <= p.Date);
             
             var values = stats.Select((s) => 
-                new ChartValue { Date = s.Date, Value = s.Value });
+                new StatValue { Date = s.Date, Value = s.Value });
             
-            return ChartFactory.GetChart(ChartType.Line, p, values);
+            return StatFactory.GetData(StatType.Single, p, values);
         }
 
-        public async Task<ChartData> GetEntryStatisticsAsync(int unitId, Parameters p)
+        public async Task<StatData> GetEntryStatisticsAsync(int unitId, Parameters p)
         {
-            //var test = ChartFactory.GetChart(ChartType.Bar, p);
+            //var test = StatFactory.GetStat(StatType.Bar, p);
             throw new NotImplementedException();
             
         }
