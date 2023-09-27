@@ -5,12 +5,13 @@ using alpha_api.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System.Xml.Linq;
 
 namespace alpha_api.Controllers
 {
     //[Authorize]
     [ApiController]
-    [Route("chart")]
+    [Route("stats")]
     //[RequiredScope(RequiredScopesConfigurationKey = "AzureAd:Scopes")]
     public class ChartController : ControllerBase
     {
@@ -21,16 +22,25 @@ namespace alpha_api.Controllers
             this.service = service;
         }
 
-        [HttpGet("machineStats")]
-        public async Task<ActionResult<ChartData>> GetMachineStats(int unitId, Parameters p, string element)
+        [HttpGet("machine/unit/{unitId}/element/{element}/res/{res}")]
+        public async Task<ActionResult<ChartData>> GetMachineStats(int unitId, string element, Resolution res)
         {
-            return await Task.FromResult(this.service.GetMachineStatistics(unitId, p, element));
+            var today = DateTime.Parse("2023-08-14"); // replacing today, for demo purposes
+
+            return await Task.FromResult(this.service.GetMachineStatistics(
+                unitId, 
+                new Parameters { Date = today, Resolution = res }, 
+                element));
         }
 
-        [HttpGet("entryStats")]
-        public async Task<ActionResult<ChartData>> GetEntryStats(int unitId, Parameters p)
+        [HttpGet("entries/unit/{unitId}/res/{res}")]
+        public async Task<ActionResult<ChartData>> GetEntryStats(int unitId, Resolution res)
         {
-            return await Task.FromResult(this.service.GetEntryStatistics(unitId, p));
+            var today = DateTime.Parse("2023-08-14"); // replacing today, for demo purposes
+
+            return await Task.FromResult(this.service.GetEntryStatistics(
+              unitId,
+              new Parameters { Date = today, Resolution = res }));
         }
     }
 }

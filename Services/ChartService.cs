@@ -27,7 +27,7 @@ namespace alpha_api.Services
             var values = stats.Select((s) => 
                 new ChartValue { Date = s.Date, Value = s.Value });
             
-            return ChartFactory.GetChart(ChartType.Bar, p, values);
+            return ChartFactory.GetChart(ChartType.Line, p, values);
         }
 
         public ChartData GetEntryStatistics(int unitId, Parameters p)

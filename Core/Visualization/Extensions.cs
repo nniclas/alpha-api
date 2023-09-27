@@ -5,7 +5,7 @@ namespace alpha_api.Core.Visualization
 {
     public static class Extensions
     {
-        private static readonly string DATE_FORMAT = "YYYY-MM-DD";
+        private static readonly string DATE_FORMAT = "yyyy-MM-dd";
 
         public static DateTime From(this DateTime date, Resolution resolution) {
 
