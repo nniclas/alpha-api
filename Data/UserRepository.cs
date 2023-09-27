@@ -12,11 +12,11 @@ namespace alpha_api.Data
             this.context = context;
         }
 
-        public User Get(int id)
+        public async Task<User> Get(int id)
         {
             try
             {
-                var user = context.Users.Find(id);
+                var user = await context.Users.FindAsync(id);
                 if (user != null)
                 {
                     return user;
@@ -32,11 +32,11 @@ namespace alpha_api.Data
             }
         }
 
-        public IEnumerable<User> GetAll()
+        public async Task<List<User>> GetAll()
         {
             try
             {
-                return context.Users.ToList();
+                return await context.Set<User>().ToListAsync();
             }
             catch
             {
@@ -44,7 +44,7 @@ namespace alpha_api.Data
             }
         }
 
-        public User GetByEmail(string email)
+        public async Task<User> GetByEmail(string email)
         {
             try
             {

@@ -4,12 +4,12 @@ namespace alpha_api.Data
 {
     public interface IRepository<TItem> where TItem : class
     {
-        TItem Get(int id);
-        IEnumerable<TItem> GetAll();
-        IEnumerable<TItem> Query(Expression<Func<TItem, bool>> predicate);
-        bool Create(TItem item);
-        bool Update(TItem item);
-        bool Delete(int id);
-        bool Exists(int id);
+        Task<TItem> GetAsync(int id);
+        Task<IEnumerable<TItem>> GetAllAsync();
+        Task<IEnumerable<TItem>> QueryAsync(Expression<Func<TItem, bool>> predicate);
+        Task<bool> CreateAsync(TItem item);
+        Task<bool> UpdateAsync(TItem item);
+        Task<bool> DeleteAsync(int id);
+        Task<bool> ExistsAsync(int id);
     }
 }

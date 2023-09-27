@@ -22,15 +22,14 @@ namespace alpha_api.Controllers
             this.service = service;
         }
 
-        [HttpGet("machine/unit/{unitId}/element/{element}/res/{res}")]
-        public async Task<ActionResult<ChartData>> GetMachineStats(int unitId, string element, Resolution res)
+        [HttpGet("machine/unit/{unitId}/res/{res}")]
+        public async Task<ActionResult<ChartData>> GetMachineStats(int unitId, Resolution res)
         {
             var today = DateTime.Parse("2023-08-14"); // replacing today, for demo purposes
 
             return await Task.FromResult(this.service.GetMachineStatistics(
                 unitId, 
-                new Parameters { Date = today, Resolution = res }, 
-                element));
+                new Parameters { Date = today, Resolution = res }));
         }
 
         [HttpGet("entries/unit/{unitId}/res/{res}")]

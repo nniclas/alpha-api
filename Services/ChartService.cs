@@ -17,7 +17,7 @@ namespace alpha_api.Services
             this.entryRepository = entryRepository;
         }
 
-        public ChartData GetMachineStatistics(int unitId, Parameters p, string element)
+        public ChartData GetMachineStatistics(int unitId, Parameters p)
         {
             var stats = statRepository.Query((s) => 
                 s.UnitId == unitId &&

@@ -4,23 +4,18 @@ using System.Linq.Expressions;
 
 namespace alpha_api.Data
 {
-    public class EntryRepository : IEntryRepository
+    public class Repository<TEntity> : IRepository<TEntity> where TEntity : class
     {
         readonly AlphaContext context = new();
 
-        public EntryRepository(AlphaContext context)
-        {
-            this.context = context;
-        }
-
-        public Entry Get(int id)
+        public async Task<TEntity> Get(int id)
         {
             try
             {
-                Entry? entry = context.Entries.Find(id);
-                if (entry != null)
+                TEntity? entity = await context.Set<TEntity>().FindAsync(id);
+                if (entity != null)
                 {
-                    return entry;
+                    return entity;
                 }
                 else
                 {
@@ -33,7 +28,7 @@ namespace alpha_api.Data
             }
         }
 
-        public IEnumerable<Entry> GetAll()
+        public async Task<IEnumerable<TEntity>> GetAll()
         {
             try
             {
@@ -119,5 +114,33 @@ namespace alpha_api.Data
         {
             return context.Entries.Any(e => e.Id == id);
         }
+
+        //public async Task<User> GetAsync(int id)
+        //{
+        //    try
+        //    {
+        //        var user = await context.Users.FindAsync(id);
+        //        if (user != null)
+        //        {
+        //            return user;
+        //        }
+        //        else
+        //        {
+        //            throw new ArgumentNullException();
+        //        }
+        //    }
+        //    catch
+        //    {
+        //        throw;
+        //    }
+        //}
     }
+
+    //Task<TItem> GetAsync(int id);
+    //Task<IEnumerable<TItem>> GetAllAsync();
+    //Task<IEnumerable<TItem>> QueryAsync(Expression<Func<TItem, bool>> predicate);
+    //Task<bool> CreateAsync(TItem item);
+    //Task<bool> UpdateAsync(TItem item);
+    //Task<bool> DeleteAsync(int id);
+    //Task<bool> ExistsAsync(int id);
 }
