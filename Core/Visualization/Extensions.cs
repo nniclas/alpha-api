@@ -5,6 +5,8 @@ namespace alpha_api.Core.Visualization
 {
     public static class Extensions
     {
+        private static readonly string DATE_FORMAT = "YYYY-MM-DD";
+
         public static DateTime From(this DateTime date, Resolution resolution) {
 
             switch (resolution)
@@ -17,9 +19,20 @@ namespace alpha_api.Core.Visualization
 
         }
 
+        public static string String(this DateTime date)
+        {
+            return date.ToString(DATE_FORMAT);
+        }
+
+        // pick every nth of values
+        public static IEnumerable<T> Every<T>(this IEnumerable<T> values, int nth) 
+        {
+            return values.Where((v, i) => i % nth == 0);
+        }
+
         //public static int Stat(this Stat stat, MachinePart part)
         //{
-            
+
         //    switch (part)
         //    {
         //        case MachinePart.Signal: return stats.SignalStrength;

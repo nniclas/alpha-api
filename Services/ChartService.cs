@@ -11,7 +11,7 @@ namespace alpha_api.Services
         private readonly IRepository<Stat> statRepository;
         private readonly IRepository<Entry> entryRepository;
 
-        public ChartService(IRepository<Stat> unitRepository, IRepository<Entry> entryRepository)
+        public ChartService(IRepository<Stat> statRepository, IRepository<Entry> entryRepository)
         {
             this.statRepository = statRepository;
             this.entryRepository = entryRepository;
