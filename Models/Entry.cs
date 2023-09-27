@@ -14,9 +14,7 @@ namespace alpha_api.Models
         public string? Notes { get; set; }
         public DateTime Date { get; set; }
 
-        //[NotMapped]
         public Unit? Unit { get; set; }
-        //[NotMapped]
         public User? User { get; set; }
     }
 }

@@ -28,10 +28,12 @@ builder.Services.AddDbContext<AlphaContext>
     (options => options.UseMySQL(config.GetConnectionString("AlphaDatabase")));
 builder.Services.AddTransient<IRepository<Entry>, EntryRepository>();
 builder.Services.AddTransient<IRepository<Unit>, UnitRepository>();
+builder.Services.AddTransient<IRepository<Stat>, StatRepository>();
 builder.Services.AddTransient<IUserRepository, UserRepository>();
 builder.Services.AddTransient<IEntryService, EntryService>();
 builder.Services.AddTransient<IUnitService, UnitService>();
 builder.Services.AddTransient<IUserService, UserService>();
+builder.Services.AddTransient<IChartService, ChartService>();
 
 builder.Services.AddControllers().AddJsonOptions(x => x.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles);
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle

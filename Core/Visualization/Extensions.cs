@@ -17,17 +17,17 @@ namespace alpha_api.Core.Visualization
 
         }
 
-        public static int Stat(this UnitStats stats, MachinePart part)
-        {
+        //public static int Stat(this Stat stat, MachinePart part)
+        //{
+            
+        //    switch (part)
+        //    {
+        //        case MachinePart.Signal: return stats.SignalStrength;
+        //        case MachinePart.Battery: return stats.Battery;
+        //        case MachinePart.Processor: return stats.Processor;
+        //        default: return 0;
+        //    }
 
-            switch (part)
-            {
-                case MachinePart.Signal: return stats.SignalStrength;
-                case MachinePart.Battery: return stats.Battery;
-                case MachinePart.Processor: return stats.Processor;
-                default: return 0;
-            }
-
-        }
+        //}
     }
 }

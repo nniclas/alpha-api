@@ -17,7 +17,7 @@ namespace alpha_api.Models
 
         public virtual DbSet<User>? Users { get; set; }
         public virtual DbSet<Unit>? Units { get; set; }
-        public virtual DbSet<UnitStats>? UnitStats { get; set; }
+        public virtual DbSet<Stat>? Stats { get; set; }
         public virtual DbSet<Entry>? Entries { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -41,15 +41,15 @@ namespace alpha_api.Models
                 entity.Property(e => e.State).IsUnicode(false);
             });
 
-            modelBuilder.Entity<UnitStats>(entity =>
+            modelBuilder.Entity<Stat>(entity =>
             {
-                entity.ToTable("unitstats");
+                entity.ToTable("stats");
                 entity.HasIndex(e => e.Id).IsUnique();
-                entity.Property(e => e.From).IsUnicode(false);
-                entity.Property(e => e.To).IsUnicode(false);
-                entity.Property(e => e.SignalStrength).IsUnicode(false);
-                entity.Property(e => e.Battery).IsUnicode(false);
-                entity.Property(e => e.Processor).IsUnicode(false);
+                entity.HasOne(e => e.Unit).WithMany(u => u.Stats).HasForeignKey(e => e.UnitId);
+                entity.Property(e => e.UnitId).IsUnicode(false);
+                entity.Property(e => e.Element).HasMaxLength(45).IsUnicode(false);
+                entity.Property(e => e.Value).IsUnicode(false);
+                entity.Property(e => e.Date).IsUnicode(false);
             });
 
             modelBuilder.Entity<Entry>(entity =>

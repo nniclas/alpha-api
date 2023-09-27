@@ -2,7 +2,7 @@
 
 namespace alpha_api.Data
 {
-    public interface IUnitStatsRepository : IRepository<UnitStats>
+    public interface IStatRepository : IRepository<Stat>
     {
     }
 }

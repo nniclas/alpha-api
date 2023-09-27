@@ -4,20 +4,20 @@ using System.Linq.Expressions;
 
 namespace alpha_api.Data
 {
-    public class UnitStatsRepository : IUnitStatsRepository
+    public class StatRepository : IStatRepository
     {
         readonly AlphaContext context = new();
 
-        public UnitStatsRepository(AlphaContext context)
+        public StatRepository(AlphaContext context)
         {
             this.context = context;
         }
 
-        public UnitStats Get(int id)
+        public Stat Get(int id)
         {
             try
             {
-                UnitStats? unit = context.UnitStats.Find(id);
+                Stat? unit = context.Stats.Find(id);
                 if (unit != null)
                 {
                     return unit;
@@ -33,11 +33,11 @@ namespace alpha_api.Data
             }
         }
 
-        public IEnumerable<UnitStats> GetAll()
+        public IEnumerable<Stat> GetAll()
         {
             try
             {
-                return context.UnitStats.ToList();
+                return context.Stats.ToList();
             }
             catch
             {
@@ -45,11 +45,11 @@ namespace alpha_api.Data
             }
         }
 
-        public IEnumerable<UnitStats> Query(Expression<Func<UnitStats, bool>> predicate)
+        public IEnumerable<Stat> Query(Expression<Func<Stat, bool>> predicate)
         {
             try
             {
-                return context.UnitStats
+                return context.Stats
                     .Where(predicate)
                     .ToList();
             }
@@ -59,11 +59,11 @@ namespace alpha_api.Data
             }
         }
 
-        public bool Create(UnitStats unitStats)
+        public bool Create(Stat stat)
         {
             try
             {
-                context.UnitStats.Add(unitStats);
+                context.Stats.Add(stat);
                 context.SaveChanges();
                 return true;
             }
@@ -73,11 +73,11 @@ namespace alpha_api.Data
             }
         }
 
-        public bool Update(UnitStats unitStats)
+        public bool Update(Stat stat)
         {
             try
             {
-                context.Entry(unitStats).State = EntityState.Modified;
+                context.Entry(stat).State = EntityState.Modified;
                 context.SaveChanges();
                 return true;
             }
@@ -92,10 +92,10 @@ namespace alpha_api.Data
             try
             {
 
-                var unit = context.Units.Find(id);
-                if (unit != null)
+                var stat = context.Stats.Find(id);
+                if (stat != null)
                 {
-                    context.Units.Remove(unit);
+                    context.Stats.Remove(stat);
                     context.SaveChanges();
                     return true;
                 }
@@ -112,7 +112,7 @@ namespace alpha_api.Data
 
         public bool Exists(int id)
         {
-            return context.Units.Any(e => e.Id == id);
+            return context.Stats.Any(e => e.Id == id);
         }
     }
 }

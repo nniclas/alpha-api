@@ -8,7 +8,7 @@ namespace alpha_api.Core.Visualization
 
     public enum ChartType { Line, Bar, Pie }
     public enum Resolution { Week, Month, Quarter }
-    public enum MachinePart { Battery, Signal, Processor }
+    //public enum MachinePart { Battery, Signal, Processor }
 
     public class Parameters
     {

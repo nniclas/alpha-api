@@ -8,5 +8,6 @@
         public int State { get; set; }
 
         public IEnumerable<Entry>? Entries { get; set; }
+        public IEnumerable<Stat>? Stats { get; set; }
     }
 }

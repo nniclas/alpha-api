@@ -8,22 +8,23 @@ namespace alpha_api.Services
     
     public class ChartService : IChartService
     {
-        private readonly IRepository<UnitStats> unitStatsRepository;
+        private readonly IRepository<Stat> statRepository;
         private readonly IRepository<Entry> entryRepository;
 
-        public ChartService(IRepository<UnitStats> unitRepository, IRepository<Entry> entryRepository)
+        public ChartService(IRepository<Stat> unitRepository, IRepository<Entry> entryRepository)
         {
-            this.unitStatsRepository = unitStatsRepository;
+            this.statRepository = statRepository;
             this.entryRepository = entryRepository;
         }
 
-        public ChartData GetMachineStatistics(Parameters p, MachinePart part)
+        public ChartData GetMachineStatistics(Parameters p, string element)
         {
-            var us = unitStatsRepository.Query((us) => 
-                us.Date > p.Date.From(p.Resolution) && us.Date <= p.Date);
+            var stats = statRepository.Query((s) => 
+                s.Element == element &&
+                s.Date > p.Date.From(p.Resolution) && s.Date <= p.Date);
 
-            var values = us.Select((us) => 
-                new ChartValue { Date = us.Date, Value = us.Stat(part) });
+            var values = stats.Select((s) => 
+                new ChartValue { Date = s.Date, Value = s.Value });
             
             return ChartFactory.GetChart(ChartType.Bar, p, values);
         }
