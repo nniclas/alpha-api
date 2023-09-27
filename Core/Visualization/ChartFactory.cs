@@ -54,7 +54,6 @@ namespace alpha_api.Core.Visualization
     {
         public LineChartData GetData(Parameters p, IEnumerable<ChartValue> values)
         {
-
             var nths = new List<dynamic>() {
                 new { res= Resolution.Week, nth=1 },
                 new { res= Resolution.Month, nth=7 },

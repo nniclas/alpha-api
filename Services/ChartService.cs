@@ -17,9 +17,10 @@ namespace alpha_api.Services
             this.entryRepository = entryRepository;
         }
 
-        public ChartData GetMachineStatistics(Parameters p, string element)
+        public ChartData GetMachineStatistics(int unitId, Parameters p, string element)
         {
             var stats = statRepository.Query((s) => 
+                s.UnitId == unitId &&
                 s.Element == element &&
                 s.Date > p.Date.From(p.Resolution) && s.Date <= p.Date);
 
@@ -29,7 +30,7 @@ namespace alpha_api.Services
             return ChartFactory.GetChart(ChartType.Bar, p, values);
         }
 
-        public ChartData GetEntryStatistics(Parameters p)
+        public ChartData GetEntryStatistics(int unitId, Parameters p)
         {
             //var test = ChartFactory.GetChart(ChartType.Bar, p);
             throw new NotImplementedException();

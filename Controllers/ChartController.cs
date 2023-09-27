@@ -22,15 +22,15 @@ namespace alpha_api.Controllers
         }
 
         [HttpGet("machineStats")]
-        public async Task<ActionResult<ChartData>> GetMachineStats(Parameters p, string element)
+        public async Task<ActionResult<ChartData>> GetMachineStats(int unitId, Parameters p, string element)
         {
-            return await Task.FromResult(this.service.GetMachineStatistics(p, element));
+            return await Task.FromResult(this.service.GetMachineStatistics(unitId, p, element));
         }
 
         [HttpGet("entryStats")]
-        public async Task<ActionResult<ChartData>> GetEntryStats(Parameters p)
+        public async Task<ActionResult<ChartData>> GetEntryStats(int unitId, Parameters p)
         {
-            return await Task.FromResult(this.service.GetEntryStatistics(p));
+            return await Task.FromResult(this.service.GetEntryStatistics(unitId, p));
         }
     }
 }
