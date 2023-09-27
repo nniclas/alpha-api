@@ -2,10 +2,8 @@
 
 namespace alpha_api.Data
 {
-    public interface IUserRepository
+    public interface IUserRepository : IRepository<User>
     {
-        public Task<IEnumerable<User>> GetAll();
-        public Task<User> Get(int id);
-        public Task<User> GetByEmail(string email);
+        public Task<User> GetByEmailAsync(string email);
     }
 }

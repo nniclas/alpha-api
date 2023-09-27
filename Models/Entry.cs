@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace alpha_api.Models
 {
-    public class Entry
+    public class Entry : IEntity
     {
         public int Id { get; set; }
         public int UnitId { get; set; }

@@ -4,12 +4,12 @@ namespace alpha_api.Services
 {
     public interface IEntryService
     {
-        List<Entry> GetAll();
-        List<Entry> GetAllByUnit(int unitId);
-        List<Entry> GetAllByUnitAndWeek(int unitId, string week);
-        Entry Get(int id);
-        bool Add(Entry entry);
-        bool Update(Entry entry);
-        bool Delete(int id);
+        Task<List<Entry>> GetAllAsync();
+        Task<List<Entry>> GetAllByUnitAsync(int unitId);
+        Task<List<Entry>> GetAllByUnitAndWeekAsync(int unitId, string week);
+        Task<Entry> GetAsync(int id);
+        Task<bool> AddAsync(Entry entry);
+        Task<bool> UpdateAsync(Entry entry);
+        Task<bool> DeleteAsync(int id);
     }
 }

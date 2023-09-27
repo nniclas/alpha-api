@@ -4,11 +4,11 @@ using System.Linq.Expressions;
 
 namespace alpha_api.Data
 {
-    public class Repository<TEntity> : IRepository<TEntity> where TEntity : class
+    public class Repository<TEntity> : IRepository<TEntity> where TEntity : class, IEntity
     {
         readonly AlphaContext context = new();
 
-        public async Task<TEntity> Get(int id)
+        public async Task<TEntity> GetAsync(int id)
         {
             try
             {
@@ -28,14 +28,14 @@ namespace alpha_api.Data
             }
         }
 
-        public async Task<IEnumerable<TEntity>> GetAll()
+        public async Task<IEnumerable<TEntity>> GetAllAsync()
         {
             try
             {
-                return context.Entries
-                    .Include((x) => x.User)
-                    .Include((x) => x.Unit)
-                    .ToList();
+                return await context.Set<TEntity>()
+                    //.Include((x) => x.User)
+                    //.Include((x) => x.Unit)
+                    .ToListAsync();
             }
             catch
             {
@@ -43,15 +43,15 @@ namespace alpha_api.Data
             }
         }
 
-        public IEnumerable<Entry> Query(Expression<Func<Entry, bool>> predicate)
+        public async Task<IEnumerable<TEntity>> QueryAsync(Expression<Func<TEntity, bool>> predicate)
         {
             try
             {
-                return context.Entries
+                return await context.Set<TEntity>()
                     .Where(predicate)
-                    .Include((x) => x.User)
-                    .Include((x) => x.Unit)
-                    .ToList();
+                    //.Include((x) => x.User)
+                    //.Include((x) => x.Unit)
+                    .ToListAsync();
             }
             catch
             {
@@ -59,11 +59,11 @@ namespace alpha_api.Data
             }
         }
 
-        public async Task<bool> Create(Entry entry)
+        public async Task<bool> CreateAsync(TEntity entity)
         {
             try
             {
-                context.Entries.AddAsync(entry);
+                context.Set<TEntity>().AddAsync(entity);
                 await context.SaveChangesAsync();
                 return true;
             }
@@ -73,12 +73,12 @@ namespace alpha_api.Data
             }
         }
 
-        public bool Update(Entry entry)
+        public async Task<bool> UpdateAsync(TEntity entity)
         {
             try
             {
-                context.Entry(entry).State = EntityState.Modified;
-                context.SaveChanges();
+                context.Entry(entity).State = EntityState.Modified;
+                await context.SaveChangesAsync();
                 return true;
             }
             catch
@@ -87,16 +87,16 @@ namespace alpha_api.Data
             }
         }
 
-        public bool Delete(int id)
+        public async Task<bool> DeleteAsync(int id)
         {
             try
             {
 
-                var entry = context.Entries.Find(id);
-                if (entry != null)
+                var entity = await context.Set<TEntity>().FindAsync(id);
+                if (entity != null)
                 {
-                    context.Entries.Remove(entry);
-                    context.SaveChanges();
+                    context.Set<TEntity>().Remove(entity);
+                    await context.SaveChangesAsync();
                     return true;
                 }
                 else
@@ -110,37 +110,10 @@ namespace alpha_api.Data
             }
         }
 
-        public bool Exists(int id)
+        public async Task<bool> ExistsAsync(int id)
         {
-            return context.Entries.Any(e => e.Id == id);
+            return await context.Set<TEntity>().AnyAsync(e => e.Id == id);
         }
-
-        //public async Task<User> GetAsync(int id)
-        //{
-        //    try
-        //    {
-        //        var user = await context.Users.FindAsync(id);
-        //        if (user != null)
-        //        {
-        //            return user;
-        //        }
-        //        else
-        //        {
-        //            throw new ArgumentNullException();
-        //        }
-        //    }
-        //    catch
-        //    {
-        //        throw;
-        //    }
-        //}
     }
 
-    //Task<TItem> GetAsync(int id);
-    //Task<IEnumerable<TItem>> GetAllAsync();
-    //Task<IEnumerable<TItem>> QueryAsync(Expression<Func<TItem, bool>> predicate);
-    //Task<bool> CreateAsync(TItem item);
-    //Task<bool> UpdateAsync(TItem item);
-    //Task<bool> DeleteAsync(int id);
-    //Task<bool> ExistsAsync(int id);
 }

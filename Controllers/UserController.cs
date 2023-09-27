@@ -23,13 +23,13 @@ namespace alpha_api.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<User>>> Get()
         {
-            return await Task.FromResult(this.service.GetAll());
+            return await this.service.GetAllAsync();
         }
 
         [HttpGet("{id}")]
         public async Task<ActionResult<User>> Get(int id)
         {
-            var user = await Task.FromResult(service.Get(id));
+            var user = await service.GetAsync(id);
             if (user == null)
             {
                 return NotFound();

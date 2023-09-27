@@ -23,13 +23,13 @@ namespace alpha_api.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Unit>>> Get()
         {
-            return await Task.FromResult(this.service.GetAll());
+            return await this.service.GetAllAsync();
         }
 
         [HttpGet("{id}")]
         public async Task<ActionResult<Unit>> Get(int id)
         {
-            var unit = await Task.FromResult(service.Get(id));
+            var unit = await service.GetAsync(id);
             if (unit == null) return NotFound();
             return unit;
         }
@@ -37,8 +37,8 @@ namespace alpha_api.Controllers
         [HttpPost]
         public async Task<ActionResult<Unit>> Post(Unit unit)
         {
-            service.Add(unit);
-            return await Task.FromResult(unit);
+            await service.AddAsync(unit);
+            return unit;
         }
 
         [HttpPut("{id}")]
@@ -47,31 +47,14 @@ namespace alpha_api.Controllers
             if (id != unit.Id)
                 return BadRequest();
             
-           service.Update(unit);
-
-            //try
-            //{
-            //    service.Update(entry);
-            //}
-            //catch (DbUpdateConcurrencyException)
-            //{
-            //    if (!Exists(id))
-            //    {
-            //        return NotFound();
-            //    }
-            //    else
-            //    {
-            //        throw;
-            //    }
-            //}
-            return await Task.FromResult(unit);
+           await service.UpdateAsync(unit);
+            return unit;
         }
 
         [HttpDelete("{id}")]
-        public async Task Delete(int id)
+        public async Task<bool> Delete(int id)
         {
-            service.Delete(id);
-            await Task.CompletedTask;
+            return await service.DeleteAsync(id);
         }
 
       

@@ -5,7 +5,7 @@ namespace alpha_api.Services
 {
     public interface IChartService
     {
-        ChartData GetEntryStatistics(int unitId, Parameters p);
-        ChartData GetMachineStatistics(int unitId, Parameters p);
+        Task<ChartData> GetEntryStatisticsAsync(int unitId, Parameters p);
+        Task<ChartData> GetMachineStatisticsAsync(int unitId, Parameters p);
     }
 }

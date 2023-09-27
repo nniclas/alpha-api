@@ -16,40 +16,40 @@ namespace alpha_api.Services
             this.repository = repository;
         }
 
-        public List<Unit> GetAll()
+        public async Task<List<Unit>> GetAllAsync()
         {
-            return this.repository.GetAll().ToList();
+            return (await this.repository.GetAllAsync()).ToList();
         }
 
-        public Unit Get(int id)
+        public async Task<Unit> GetAsync(int id)
         {
-            return repository.Get(id);
+            return await repository.GetAsync(id);
         }
 
-        public bool Add(Unit unit)
+        public async Task<bool> AddAsync(Unit unit)
         {
-            repository.Create(unit);
+            await repository.CreateAsync(unit);
             return true;
         }
 
-        public bool Update(Unit unit) 
+        public async Task<bool> UpdateAsync(Unit unit) 
         {
             try
             {
-                repository.Update(unit);
+                await repository.UpdateAsync(unit);
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!repository.Exists(unit.Id))
+                if (!await repository.ExistsAsync(unit.Id))
                     return false;
                 throw;
             }
             return true;
         }
             
-        public bool Delete(int id) 
+        public async Task<bool> DeleteAsync(int id) 
         { 
-            return repository.Delete(id); 
+            return await repository.DeleteAsync(id); 
         }
 
 

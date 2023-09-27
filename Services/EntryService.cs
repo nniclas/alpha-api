@@ -19,54 +19,54 @@ namespace alpha_api.Services
             this.entryRepository = entryRepository;
         }
 
-        public List<Entry> GetAll()
+        public async Task<List<Entry>> GetAllAsync()
         {
-            return this.entryRepository.GetAll().ToList();
+            return (await this.entryRepository.GetAllAsync()).ToList();
         }
 
-        public List<Entry> GetAllByUnit(int unitId)
+        public async Task<List<Entry>> GetAllByUnitAsync(int unitId)
         {
-            return this.entryRepository.Query((e) => e.UnitId == unitId).ToList();
+            return (await this.entryRepository.QueryAsync((e) => e.UnitId == unitId)).ToList();
         }
 
-        public List<Entry> GetAllByUnitAndWeek(int unitId, string week)
+        public async Task<List<Entry>> GetAllByUnitAndWeekAsync(int unitId, string week)
         {
-            return this.entryRepository.Query((e) => 
+            return (await this.entryRepository.QueryAsync((e) => 
                 e.UnitId == unitId &&   
                 e.Date >=  week.ToDateTime(DayOfWeek.Monday) && 
-                e.Date <= week.ToDateTime(DayOfWeek.Sunday))
+                e.Date <= week.ToDateTime(DayOfWeek.Sunday)))
                 .ToList();
         }
 
-        public Entry Get(int id)
+        public async Task<Entry> GetAsync(int id)
         {
-            return entryRepository.Get(id);
+            return await entryRepository.GetAsync(id);
         }
 
-        public bool Add(Entry entry)
+        public async Task<bool> AddAsync(Entry entry)
         {
-            entryRepository.Create(entry);
+            await entryRepository.CreateAsync(entry);
             return true;
         }
 
-        public bool Update(Entry entry) 
+        public async Task<bool> UpdateAsync(Entry entry) 
         {
             try
             {
-                entryRepository.Update(entry);
+                await entryRepository.UpdateAsync(entry);
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!entryRepository.Exists(entry.Id))
+                if (!await entryRepository.ExistsAsync(entry.Id))
                     return false;
                 throw;
             }
             return true;
         }
             
-        public bool Delete(int id) 
+        public async Task<bool> DeleteAsync(int id) 
         { 
-            return entryRepository.Delete(id); 
+            return await entryRepository.DeleteAsync(id); 
         }
 
 

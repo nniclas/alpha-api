@@ -32,7 +32,7 @@ namespace alpha_api.Controllers
         [Route("account/signin")]
         public async Task<IActionResult> SignIn(SignInRequest request)
         {
-            var user = this.userService.GetByEmail(request.Email);
+            var user = await this.userService.GetByEmailAsync(request.Email);
             if (user == null || request.Email == null || request.Password == null)
                 return BadRequest("Invalid request");
 

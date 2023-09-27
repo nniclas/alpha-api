@@ -4,8 +4,8 @@ namespace alpha_api.Services
 {
     public interface IUserService
     {
-        List<User> GetAll();
-        User Get(int id);
-        User GetByEmail(string email);
+        Task<List<User>> GetAllAsync();
+        Task<User> GetAsync(int id);
+        Task<User> GetByEmailAsync(string email);
     }
 }

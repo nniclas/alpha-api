@@ -27,9 +27,9 @@ namespace alpha_api.Controllers
         {
             var today = DateTime.Parse("2023-08-14"); // replacing today, for demo purposes
 
-            return await Task.FromResult(this.service.GetMachineStatistics(
+            return await this.service.GetMachineStatisticsAsync(
                 unitId, 
-                new Parameters { Date = today, Resolution = res }));
+                new Parameters { Date = today, Resolution = res });
         }
 
         [HttpGet("entries/unit/{unitId}/res/{res}")]
@@ -37,9 +37,9 @@ namespace alpha_api.Controllers
         {
             var today = DateTime.Parse("2023-08-14"); // replacing today, for demo purposes
 
-            return await Task.FromResult(this.service.GetEntryStatistics(
+            return await this.service.GetEntryStatisticsAsync(
               unitId,
-              new Parameters { Date = today, Resolution = res }));
+              new Parameters { Date = today, Resolution = res });
         }
     }
 }

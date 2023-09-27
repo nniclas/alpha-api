@@ -23,25 +23,25 @@ namespace alpha_api.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Entry>>> Get()
         {
-            return await Task.FromResult(this.service.GetAll());
+            return await this.service.GetAllAsync();
         }
 
         [HttpGet("unit/{unitId}")]
         public async Task<ActionResult<IEnumerable<Entry>>> GetByUnit(int unitId)
         {
-            return await Task.FromResult(this.service.GetAllByUnit(unitId));
+            return await this.service.GetAllByUnitAsync(unitId);
         }
 
         [HttpGet("unit/{unitId}/week/{week}")]
         public async Task<ActionResult<IEnumerable<Entry>>> GetByUnitAndWeek(int unitId, string week)
         {
-            return await Task.FromResult(this.service.GetAllByUnitAndWeek(unitId, week));
+            return await this.service.GetAllByUnitAndWeekAsync(unitId, week);
         }
 
         [HttpGet("{id}")]
         public async Task<ActionResult<Entry>> Get(int id)
         {
-            var entry = await Task.FromResult(service.Get(id));
+            var entry = await service.GetAsync(id);
             if (entry == null) return NotFound();
             return entry;
         }
@@ -49,8 +49,8 @@ namespace alpha_api.Controllers
         [HttpPost]
         public async Task<ActionResult<Entry>> Post(Entry entry)
         {
-            service.Add(entry);
-            return await Task.FromResult(entry);
+            await service.AddAsync(entry);
+            return entry;
         }
 
         [HttpPut("{id}")]
@@ -59,7 +59,7 @@ namespace alpha_api.Controllers
             if (id != entry.Id)
                 return BadRequest();
             
-           service.Update(entry);
+           await service.UpdateAsync(entry);
 
             //try
             //{
@@ -80,10 +80,9 @@ namespace alpha_api.Controllers
         }
 
         [HttpDelete("{id}")]
-        public async Task Delete(int id)
+        public async Task<bool> DeleteAsync(int id)
         {
-            service.Delete(id);
-            await Task.CompletedTask;
+            return await service.DeleteAsync(id);
         }
 
       

@@ -16,19 +16,19 @@ namespace alpha_api.Services
             this.repository = repository;
         }
 
-        public List<User> GetAll()
+        public async Task<List<User>> GetAllAsync()
         {
-            return this.repository.GetAll().ToList();
+            return (await this.repository.GetAllAsync()).ToList();
         }
 
-        public User Get(int id)
+        public async Task<User> GetAsync(int id)
         {
-            return repository.Get(id);
+            return await repository.GetAsync(id);
         }
 
-        public User GetByEmail(string email)
+        public async Task<User> GetByEmailAsync(string email)
         {
-            return repository.GetByEmail(email);
+            return await repository.GetByEmailAsync(email);
         }
     }
 }

@@ -1,6 +1,6 @@
 ﻿namespace alpha_api.Models
 {
-    public class Stat
+    public class Stat : IEntity
     {
         public int Id { get; set; }
         public int UnitId { get; set; }
