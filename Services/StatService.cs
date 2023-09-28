@@ -17,7 +17,7 @@ namespace alpha_api.Services
             this.entryRepository = entryRepository;
         }
 
-        public async Task<StatData> GetMachineStatisticsAsync(int unitId, Parameters p)
+        public async Task<Dictionary<string, StatData>> GetMachineStatisticsAsync(int unitId, Parameters p)
         {
             var stats = await statRepository.QueryAsync((s) => 
                 s.UnitId == unitId &&
@@ -26,9 +26,12 @@ namespace alpha_api.Services
             
             var values = stats.Select((s) => 
                 new StatValue { Date = s.Date, Value = s.Value });
-            
-            return StatFactory.GetData(StatType.Single, p, values);
+
+            return stats.Select((st) => new KeyValuePair<string, StatData>(
+                    st.Element, StatFactory.GetData(StatType.Single, p, values))
+                ).ToDictionary(x => x.Key, x => x.Value);
         }
+        
 
         public async Task<StatData> GetEntryStatisticsAsync(int unitId, Parameters p)
         {

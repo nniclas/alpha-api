@@ -16,16 +16,8 @@ var builder = WebApplication.CreateBuilder(args);
 //builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
 //    .AddJwtBearer();
 
-// https://stackoverflow.com/questions/44249263/optional-appsettings-local-json-in-new-format-visual-studio-project
-var config = new ConfigurationBuilder()
-    .AddJsonFile($"appsettings.{builder.Environment.EnvironmentName}.json", optional: true)
-    .AddEnvironmentVariables()
-    .Build();
+builder.Services.AddDbContext<AlphaContext>();
 
-builder.Services.AddSingleton<IConfiguration>(config);
-
-builder.Services.AddDbContext<AlphaContext>
-    (options => options.UseMySQL(config.GetConnectionString("AlphaDatabase")));
 builder.Services.AddTransient<IRepository<Entry>, EntryRepository>();
 builder.Services.AddTransient<IRepository<Unit>, UnitRepository>();
 builder.Services.AddTransient<IRepository<Stat>, StatRepository>();

@@ -23,7 +23,7 @@ namespace alpha_api.Controllers
         }
 
         [HttpGet("machine/unit/{unitId}/res/{res}")]
-        public async Task<ActionResult<StatData>> GetMachineStats(int unitId, Resolution res)
+        public async Task<ActionResult<Dictionary<string, StatData>>> GetMachineStats(int unitId, Resolution res)
         {
             var today = DateTime.Parse("2023-08-14"); // replacing today, for demo purposes
 
