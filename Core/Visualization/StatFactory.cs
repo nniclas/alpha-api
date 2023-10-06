@@ -3,13 +3,8 @@ using System.Collections.Generic;
 
 namespace alpha_api.Core.Visualization
 {
-
-    //var p = new Parameters { From = DateTime.Today, To = DateTime.Today };
-    //var data = StatFactory.GetStat(StatType.Line, p);
-
     public enum StatType { Single, Series }
     public enum Resolution { Week, Month, Quarter }
-    //public enum MachinePart { Battery, Signal, Processor }
 
     public class Parameters
     {
@@ -17,22 +12,22 @@ namespace alpha_api.Core.Visualization
         public Resolution Resolution { get; set; }
     }
 
-    public class StatValue
+    public class StatValue<T>
     {
-        public DateTime Date { get; set; }
+        public T Stat { get; set; }
         public int Value { get; set; }
     }
 
     public static class StatFactory
     {
-        public static StatData GetData(StatType type, Parameters p, IEnumerable<StatValue> values)
+        public static StatData GetPeriodData(StatType type, Parameters p, IEnumerable<StatValue<DateTime>> values, bool dayTitles = false)
         {
             switch (type)
             {
                 case StatType.Single:
-                    return new SingleDataBuilder().Get(p, values);
+                    return new SinglePeriodDataBuilder().Get(p, values, dayTitles);
                 case StatType.Series:
-                    return new SeriesDataBuilder().Get(p, values);
+                    return new SeriesPeriodDataBuilder().Get(p, values, dayTitles);
                 default:
                     throw new ApplicationException(string.Format("Type '{0}' cannot be created", type));
             }

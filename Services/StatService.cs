@@ -1,7 +1,9 @@
-﻿using alpha_api.Core.Visualization;
+﻿using alpha_api.Core.Enums;
+using alpha_api.Core.Visualization;
 using alpha_api.Data;
 using alpha_api.Models;
 using Microsoft.EntityFrameworkCore;
+using MySqlX.XDevAPI.Common;
 
 namespace alpha_api.Services
 {
@@ -17,27 +19,45 @@ namespace alpha_api.Services
             this.entryRepository = entryRepository;
         }
 
+        // split into dictionary by machine element
         public async Task<Dictionary<string, StatData>> GetMachineStatisticsAsync(int unitId, Parameters p)
         {
             var stats = await statRepository.QueryAsync((s) => 
                 s.UnitId == unitId &&
-                //s.Element == element &&
                 s.Date > p.Date.From(p.Resolution) && s.Date <= p.Date);
             
-            var values = stats.Select((s) => 
-                new StatValue { Date = s.Date, Value = s.Value });
-
-            return stats.Select((st) => new KeyValuePair<string, StatData>(
-                    st.Element, StatFactory.GetData(StatType.Single, p, values))
-                ).ToDictionary(x => x.Key, x => x.Value);
+            return stats.DistinctBy(x => x.Element).Select((st) =>
+                new KeyValuePair<string, StatData>(
+                    st.Element, StatFactory.GetPeriodData(
+                        StatType.Single, 
+                        p, 
+                        stats
+                            .Where((v) => v.Element == st.Element)
+                            .Select((v) => new StatValue<DateTime> { Stat = v.Date, Value = v.Value })
+                    ,true)
+                )
+            ).ToDictionary(x => x.Key, x => x.Value);
         }
         
-
         public async Task<StatData> GetEntryStatisticsAsync(int unitId, Parameters p)
         {
-            //var test = StatFactory.GetStat(StatType.Bar, p);
-            throw new NotImplementedException();
-            
+            var entries = await entryRepository.QueryAsync((e) =>
+                 e.UnitId == unitId &&
+                 e.Date > p.Date.From(p.Resolution) && e.Date <= p.Date);
+
+            var sValues = ((Event[])Enum.GetValues(typeof(Event))).Select((e) =>
+            {
+                return new StatValue<Event>() { 
+                    Stat = e, 
+                    Value = entries.Count((x) => x.Event == e) 
+                };
+            });
+
+            return new StatData
+            {
+                Data = sValues.Select((sv) => sv.Value),
+                Titles = sValues.Select((sv) => sv.Stat.ToString())
+            };
         }
     }
 }

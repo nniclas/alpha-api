@@ -15,6 +15,8 @@ namespace alpha_api.Controllers
     //[RequiredScope(RequiredScopesConfigurationKey = "AzureAd:Scopes")]
     public class StatController : ControllerBase
     {
+        private readonly string TODAY = "2023-08-14"; // replacing today, for demo purposes
+
         private readonly IStatService service;
 
         public StatController(IStatService service)
@@ -25,7 +27,7 @@ namespace alpha_api.Controllers
         [HttpGet("machine/unit/{unitId}/res/{res}")]
         public async Task<ActionResult<Dictionary<string, StatData>>> GetMachineStats(int unitId, Resolution res)
         {
-            var today = DateTime.Parse("2023-08-14"); // replacing today, for demo purposes
+            var today = DateTime.Parse(TODAY);
 
             return await this.service.GetMachineStatisticsAsync(
                 unitId, 
@@ -35,7 +37,7 @@ namespace alpha_api.Controllers
         [HttpGet("entries/unit/{unitId}/res/{res}")]
         public async Task<ActionResult<StatData>> GetEntryStats(int unitId, Resolution res)
         {
-            var today = DateTime.Parse("2023-08-14"); // replacing today, for demo purposes
+            var today = DateTime.Parse(TODAY);
 
             return await this.service.GetEntryStatisticsAsync(
               unitId,

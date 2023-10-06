@@ -3,7 +3,7 @@ using alpha_api.Models;
 
 namespace alpha_api.Core.Visualization
 {
-    public static class Extensions
+    public static class DateExtensions
     {
         private static readonly string DATE_FORMAT = "yyyy-MM-dd";
 
@@ -19,8 +19,10 @@ namespace alpha_api.Core.Visualization
 
         }
 
-        public static string String(this DateTime date)
+        public static string String(this DateTime date, bool day = false)
         {
+            if (day)
+                return date.DayOfWeek.ToString();
             return date.ToString(DATE_FORMAT);
         }
 
@@ -29,18 +31,5 @@ namespace alpha_api.Core.Visualization
         {
             return values.Where((v, i) => i % nth == 0);
         }
-
-        //public static int Stat(this Stat stat, MachinePart part)
-        //{
-
-        //    switch (part)
-        //    {
-        //        case MachinePart.Signal: return stats.SignalStrength;
-        //        case MachinePart.Battery: return stats.Battery;
-        //        case MachinePart.Processor: return stats.Processor;
-        //        default: return 0;
-        //    }
-
-        //}
     }
 }
