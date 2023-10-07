@@ -6,8 +6,8 @@ namespace alpha_api.Services
     {
         Task<List<Unit>> GetAllAsync();
         Task<Unit> GetAsync(int id);
-        Task<bool> AddAsync(Unit unit);
-        Task<bool> UpdateAsync(Unit unit);
+        Task<Unit> AddAsync(Unit unit);
+        Task<Unit> UpdateAsync(Unit unit);
         Task<bool> DeleteAsync(int id);
     }
 }

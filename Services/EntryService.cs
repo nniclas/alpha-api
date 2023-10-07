@@ -43,25 +43,23 @@ namespace alpha_api.Services
             return await entryRepository.GetAsync(id);
         }
 
-        public async Task<bool> AddAsync(Entry entry)
+        public async Task<Entry> AddAsync(Entry entry)
         {
-            await entryRepository.CreateAsync(entry);
-            return true;
+            var e = await entryRepository.CreateAsync(entry);
+            return e;
         }
 
-        public async Task<bool> UpdateAsync(Entry entry) 
+        public async Task<Entry> UpdateAsync(Entry entry) 
         {
             try
             {
-                await entryRepository.UpdateAsync(entry);
+                var e = await entryRepository.UpdateAsync(entry);
+                return e;
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!await entryRepository.ExistsAsync(entry.Id))
-                    return false;
                 throw;
             }
-            return true;
         }
             
         public async Task<bool> DeleteAsync(int id) 

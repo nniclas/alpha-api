@@ -8,8 +8,8 @@ namespace alpha_api.Services
         Task<List<Entry>> GetAllByUnitAsync(int unitId);
         Task<List<Entry>> GetAllByUnitAndWeekAsync(int unitId, string week);
         Task<Entry> GetAsync(int id);
-        Task<bool> AddAsync(Entry entry);
-        Task<bool> UpdateAsync(Entry entry);
+        Task<Entry> AddAsync(Entry entry);
+        Task<Entry> UpdateAsync(Entry entry);
         Task<bool> DeleteAsync(int id);
     }
 }

@@ -59,13 +59,13 @@ namespace alpha_api.Data
             }
         }
 
-        public async Task<bool> CreateAsync(TEntity entity)
+        public async Task<TEntity> CreateAsync(TEntity entity)
         {
             try
             {
-                context.Set<TEntity>().AddAsync(entity);
+                var e = await context.Set<TEntity>().AddAsync(entity);
                 await context.SaveChangesAsync();
-                return true;
+                return e.Entity;
             }
             catch
             {
@@ -73,13 +73,13 @@ namespace alpha_api.Data
             }
         }
 
-        public async Task<bool> UpdateAsync(TEntity entity)
+        public async Task<TEntity> UpdateAsync(TEntity entity)
         {
             try
             {
                 context.Entry(entity).State = EntityState.Modified;
                 await context.SaveChangesAsync();
-                return true;
+                return entity;
             }
             catch
             {

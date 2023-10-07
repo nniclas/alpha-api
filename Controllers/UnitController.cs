@@ -37,8 +37,8 @@ namespace alpha_api.Controllers
         [HttpPost]
         public async Task<ActionResult<Unit>> Post(Unit unit)
         {
-            await service.AddAsync(unit);
-            return unit;
+            var u = await service.AddAsync(unit);
+            return u;
         }
 
         [HttpPut("{id}")]
