@@ -7,6 +7,8 @@ namespace alpha_api.Core.Visualization
 {
     public static class DateExtensions
     {
+        public static readonly IEnumerable<string> MONTHS = new List<string>() { "JAN", "FEB", "MAR", "APR", "MAY", "JUN", "JUL", "AUG", "SEP", "OCT", "NOV", "DEC" };
+
         private static readonly string DATE_FORMAT = "yyyy-MM-dd";
 
         public static DateTime From(this DateTime date, Resolution resolution) {
@@ -46,26 +48,26 @@ namespace alpha_api.Core.Visualization
         public static IEnumerable<StatValue<DateTime>> GetDateUnits(this IEnumerable<StatValue<DateTime>> values, Resolution res, bool avg = false)
         {
             var units = new List<StatValue<DateTime>>();
-            var map = new Dictionary<Resolution, Func<DateTime, int>>() { 
+            var unitMap = new Dictionary<Resolution, Func<DateTime, int>>() { 
                  { Resolution.Week, (d) =>  d.Day },
                  { Resolution.Month, (d) => d.IsoWeek() },
                  { Resolution.Quarter, (d) => d.Month }
             };
 
-            var pbreak = map[res](values.ToList().First().Stat);
+            var pbreak = unitMap[res](values.ToList().First().Stat);
             var valuesInPeriod = new List<StatValue<DateTime>>();
             var avgs = new List<double>();
 
             values.ToList().ForEach((v) =>
             {
                 valuesInPeriod.Add(v);
-                if (map[res](v.Stat) != pbreak)
+                if (unitMap[res](v.Stat) != pbreak)
                 {
                     if (avg) // if avg, overwrite Value prop with avg value
                         v.Value = Convert.ToInt32(valuesInPeriod.Select((v) => v.Value).Average());
                     
                     units.Add(v);
-                    pbreak = map[res](v.Stat);
+                    pbreak = unitMap[res](v.Stat);
                     valuesInPeriod.Clear();
                 }
             });
@@ -78,8 +80,8 @@ namespace alpha_api.Core.Visualization
             switch (res)
             {
                 case (Resolution.Week): return date.DayOfWeek.ToString();
-                case (Resolution.Month): return date.IsoWeek().ToString();
-                case (Resolution.Quarter): return date.Month.ToString();
+                case (Resolution.Month): return $"W {date.IsoWeek()}";
+                case (Resolution.Quarter): return MONTHS.ToList()[date.Month];
             }
             return date.ToString();
         }

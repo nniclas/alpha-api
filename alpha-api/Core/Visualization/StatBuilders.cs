@@ -13,7 +13,7 @@
         public StatData Get(Parameters p, IEnumerable<StatValue<DateTime>> values, bool unitsOfRes = false)
         {
            
-            var result = values.GetDateUnits(p.Resolution, true);
+            var result = values.Reverse().GetDateUnits(p.Resolution, true);
 
             //var result = values.Every((int)nths.Find((rp) => rp.res == p.Resolution)!.nth).ToList();
 
