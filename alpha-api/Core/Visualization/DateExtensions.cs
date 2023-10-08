@@ -1,5 +1,7 @@
 ﻿using alpha_api.Core.Visualization;
 using alpha_api.Models;
+using Google.Protobuf.WellKnownTypes;
+using System.Globalization;
 
 namespace alpha_api.Core.Visualization
 {
@@ -26,10 +28,61 @@ namespace alpha_api.Core.Visualization
             return date.ToString(DATE_FORMAT);
         }
 
-        // pick every nth of values
-        public static IEnumerable<T> Every<T>(this IEnumerable<T> values, int nth) 
+        public static int IsoWeek(this DateTime date)
         {
-            return values.Where((v, i) => i % nth == 0);
+            return ISOWeek.GetWeekOfYear(date);
         }
+
+        // from YYYY-WW to DateTime
+        public static DateTime ToDateTime(this string yearWeek, DayOfWeek dow)
+        {
+            //var cal = new CultureInfo("en-US").Calendar;
+            var yw = yearWeek.Split(new char[] { '-' }, 2);
+            return ISOWeek.ToDateTime(Convert.ToInt32(yw[0]), Convert.ToInt32(yw[1]), dow);
+        }
+
+        // get/calc units of selected resolution from source values (smallest-unit values)
+        // avg: get avg for unit or pick a momentary value
+        public static IEnumerable<StatValue<DateTime>> GetDateUnits(this IEnumerable<StatValue<DateTime>> values, Resolution res, bool avg = false)
+        {
+            var units = new List<StatValue<DateTime>>();
+            var map = new Dictionary<Resolution, Func<DateTime, int>>() { 
+                 { Resolution.Week, (d) =>  d.Day },
+                 { Resolution.Month, (d) => d.IsoWeek() },
+                 { Resolution.Quarter, (d) => d.Month }
+            };
+
+            var pbreak = map[res](values.ToList().First().Stat);
+            var valuesInPeriod = new List<StatValue<DateTime>>();
+            var avgs = new List<double>();
+
+            values.ToList().ForEach((v) =>
+            {
+                valuesInPeriod.Add(v);
+                if (map[res](v.Stat) != pbreak)
+                {
+                    if (avg) // if avg, overwrite Value prop with avg value
+                        v.Value = Convert.ToInt32(valuesInPeriod.Select((v) => v.Value).Average());
+                    
+                    units.Add(v);
+                    pbreak = map[res](v.Stat);
+                    valuesInPeriod.Clear();
+                }
+            });
+            return units;
+        }
+
+
+        public static string UnitOfResolution(this DateTime date, Resolution res)
+        {
+            switch (res)
+            {
+                case (Resolution.Week): return date.DayOfWeek.ToString();
+                case (Resolution.Month): return date.IsoWeek().ToString();
+                case (Resolution.Quarter): return date.Month.ToString();
+            }
+            return date.ToString();
+        }
+
     }
 }

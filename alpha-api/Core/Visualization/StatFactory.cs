@@ -20,14 +20,14 @@ namespace alpha_api.Core.Visualization
 
     public static class StatFactory
     {
-        public static StatData GetPeriodData(StatType type, Parameters p, IEnumerable<StatValue<DateTime>> values, bool dayTitles = false)
+        public static StatData GetPeriodData(StatType type, Parameters p, IEnumerable<StatValue<DateTime>> values, bool unitsOfRes = false)
         {
             switch (type)
             {
                 case StatType.Single:
-                    return new SinglePeriodDataBuilder().Get(p, values, dayTitles);
+                    return new SinglePeriodDataBuilder().Get(p, values, unitsOfRes);
                 case StatType.Series:
-                    return new SeriesPeriodDataBuilder().Get(p, values, dayTitles);
+                    return new SeriesPeriodDataBuilder().Get(p, values, unitsOfRes);
                 default:
                     throw new ApplicationException(string.Format("Type '{0}' cannot be created", type));
             }

@@ -10,19 +10,17 @@
 
     public class SinglePeriodDataBuilder
     {
-        public StatData Get(Parameters p, IEnumerable<StatValue<DateTime>> values, bool dayTitles = false)
+        public StatData Get(Parameters p, IEnumerable<StatValue<DateTime>> values, bool unitsOfRes = false)
         {
-            var nths = new List<dynamic>() {
-                new { res= Resolution.Week, nth=1 },
-                new { res= Resolution.Month, nth=7 },
-                new { res= Resolution.Quarter, nth=10 } // nth 30..........
-            };
-            var result = values.Every((int)nths.Find((rp) => rp.res == p.Resolution)!.nth).ToList();
+           
+            var result = values.GetDateUnits(p.Resolution, true);
+
+            //var result = values.Every((int)nths.Find((rp) => rp.res == p.Resolution)!.nth).ToList();
 
             return new StatData
             {
                 Data = result.Select((sv) => sv.Value),
-                Titles = result.Select((sv) => sv.Stat.String(dayTitles)),
+                Titles = result.Select((sv) => unitsOfRes ? sv.Stat.UnitOfResolution(p.Resolution) : sv.Stat.String()),
             };
         }
     }
