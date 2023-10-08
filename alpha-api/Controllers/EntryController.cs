@@ -80,7 +80,7 @@ namespace alpha_api.Controllers
         }
 
         [HttpDelete("{id}")]
-        public async Task<bool> DeleteAsync(int id)
+        public async Task<bool> Delete(int id)
         {
             return await service.DeleteAsync(id);
         }

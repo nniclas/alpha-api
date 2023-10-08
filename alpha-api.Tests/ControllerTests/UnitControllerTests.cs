@@ -3,12 +3,13 @@ using FluentAssertions;
 using alpha_api.Controllers;
 using alpha_api.Models;
 using alpha_api.Services;
+using alpha_api.Tests.Common;
 
 namespace alpha_api.Tests.ControllerTests
 {
     //  https://www.c-sharpcorner.com/blogs/implementation-of-unit-test-using-xunit-and-moq-in-net-core-6-web-api
 
-    public partial class UnitControllerTests
+    public class UnitControllerTests
     {
         private readonly Mock<IUnitService> unitService;
         public UnitControllerTests()
@@ -20,7 +21,7 @@ namespace alpha_api.Tests.ControllerTests
         public async Task Get_NoParams_UnitList()
         {
             //arrange
-            var testUnits = GetUnits();
+            var testUnits = MockData.Units.ToList();
             unitService.Setup((x) => x.GetAllAsync()).ReturnsAsync(testUnits.ToList());
             var unitController = new UnitController(unitService.Object);
 
@@ -30,7 +31,7 @@ namespace alpha_api.Tests.ControllerTests
             //assert
             unitListResult.Value.Should()
                 .NotBeNull()
-                .And.Match<IEnumerable<Unit>>(d => d.Count() == GetUnits().Count())
+                .And.Match<IEnumerable<Unit>>(d => d.Count() == testUnits.Count())
                 .And.BeEquivalentTo(testUnits); 
         }
 
@@ -38,7 +39,7 @@ namespace alpha_api.Tests.ControllerTests
         public async Task GetById_WithId_Unit()
         {
             //arrange
-            var testUnits = GetUnits().ToList();
+            var testUnits = MockData.Units.ToList();
             unitService.Setup((x) => x.GetAsync(2)).ReturnsAsync(testUnits[1]);
             var unitController = new UnitController(unitService.Object);
 
@@ -55,7 +56,7 @@ namespace alpha_api.Tests.ControllerTests
         public async Task AddUnit_WithUnit_Unit()
         {
             //arrange
-            var testUnit = GetUnits().ToList()[1];
+            var testUnit = MockData.Units.ToList()[1];
             unitService.Setup(x => x.AddAsync(testUnit)).ReturnsAsync(testUnit);
             var unitController = new UnitController(unitService.Object);
 
@@ -72,7 +73,7 @@ namespace alpha_api.Tests.ControllerTests
         public async Task UpdateUnit_WithIdAndUnit_Unit()
         {
             //arrange
-            var testUnit = GetUnits().ToList()[1];
+            var testUnit = MockData.Units.ToList()[1];
             unitService.Setup(x => x.UpdateAsync(testUnit)).ReturnsAsync(testUnit);
             var unitController = new UnitController(unitService.Object);
 
@@ -89,7 +90,7 @@ namespace alpha_api.Tests.ControllerTests
         public async Task DeleteUnit_WithId_True()
         {
             //arrange
-            var testUnit = GetUnits().ToList()[1];
+            var testUnit = MockData.Units.ToList()[1];
             unitService.Setup(x => x.DeleteAsync(testUnit.Id)).ReturnsAsync(true);
             var unitController = new UnitController(unitService.Object);
 
