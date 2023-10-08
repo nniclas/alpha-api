@@ -32,10 +32,6 @@ namespace alpha_api.Tests.ControllerTests
                 .NotBeNull()
                 .And.Match<IEnumerable<Unit>>(d => d.Count() == GetUnits().Count())
                 .And.BeEquivalentTo(testUnits); 
-            
-            //Assert.NotNull(unitListResult);
-            //Assert.Equal(GetUnits().Count(), unitListResult.Value.Count());
-            //Assert.Equal(GetUnits().ToString(), unitListResult.Value.ToString());
         }
 
         [Fact]
@@ -53,10 +49,56 @@ namespace alpha_api.Tests.ControllerTests
             unitResult.Value.Should()
                 .NotBeNull()
                 .And.Match<Unit>(d => d.Id == testUnits[1].Id);
+        }
 
-            //Assert.NotNull(unitResult);
-            //Assert.Equal(testUnits[1].Id, unitResult.Value.Id);
-            //Assert.True(testUnits[1].Id == unitResult.Value.Id);
+        [Fact]
+        public async Task AddUnit_WithUnit_Unit()
+        {
+            //arrange
+            var testUnit = GetUnits().ToList()[1];
+            unitService.Setup(x => x.AddAsync(testUnit)).ReturnsAsync(testUnit);
+            var unitController = new UnitController(unitService.Object);
+
+            //act
+            var unitResult = await unitController.Post(testUnit);
+
+            //assert
+            unitResult.Value.Should()
+                .NotBeNull()
+                .And.Match<Unit>(d => d.Id == testUnit.Id);
+        }
+
+        [Fact]
+        public async Task UpdateUnit_WithIdAndUnit_Unit()
+        {
+            //arrange
+            var testUnit = GetUnits().ToList()[1];
+            unitService.Setup(x => x.UpdateAsync(testUnit)).ReturnsAsync(testUnit);
+            var unitController = new UnitController(unitService.Object);
+
+            //act
+            var unitResult = await unitController.Put(testUnit.Id, testUnit);
+
+            //assert
+            unitResult.Value.Should()
+                .NotBeNull()
+                .And.Match<Unit>(d => d.Id == testUnit.Id);
+        }
+
+        [Fact]
+        public async Task DeleteUnit_WithId_True()
+        {
+            //arrange
+            var testUnit = GetUnits().ToList()[1];
+            unitService.Setup(x => x.DeleteAsync(testUnit.Id)).ReturnsAsync(true);
+            var unitController = new UnitController(unitService.Object);
+
+            //act
+            var unitResult = await unitController.Delete(testUnit.Id);
+
+            //assert
+            unitResult.Should()
+                .BeTrue();  
         }
     }
 }
