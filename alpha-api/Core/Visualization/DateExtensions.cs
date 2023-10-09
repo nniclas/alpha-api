@@ -15,7 +15,7 @@ namespace alpha_api.Core.Visualization
 
             switch (resolution)
             {
-                case Resolution.Week: return date.AddDays(-7);
+                case Resolution.Week: return date.AddDays(-8); // 7 +1
                 case Resolution.Month: return date.AddMonths(-1);
                 case Resolution.Quarter: return date.AddMonths(-3);
                 default: return date;
@@ -54,7 +54,8 @@ namespace alpha_api.Core.Visualization
                  { Resolution.Quarter, (d) => d.Month }
             };
 
-            var pbreak = unitMap[res](values.ToList().First().Stat);
+            var pbreak = -1;
+            //var pbreak = unitMap[res](values.ToList().First().Stat);
             var valuesInPeriod = new List<StatValue<DateTime>>();
             var avgs = new List<double>();
 
@@ -71,7 +72,7 @@ namespace alpha_api.Core.Visualization
                     valuesInPeriod.Clear();
                 }
             });
-            return units;
+            return units.SkipLast(1);
         }
 
 
@@ -81,7 +82,7 @@ namespace alpha_api.Core.Visualization
             {
                 case (Resolution.Week): return date.DayOfWeek.ToString();
                 case (Resolution.Month): return $"W {date.IsoWeek()}";
-                case (Resolution.Quarter): return MONTHS.ToList()[date.Month];
+                case (Resolution.Quarter): return MONTHS.ToList()[date.Month - 1];
             }
             return date.ToString();
         }
