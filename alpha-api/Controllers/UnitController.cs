@@ -80,7 +80,7 @@ namespace alpha_api.Controllers
         /// </summary>
         /// <param name="id">The id of the unit to update</param>
         /// <param name="unit">The unit to be updated</param>
-        /// <returns>Returns a unit</returns>
+        /// <returns>Returns the added unit</returns>
         /// <returns>Returns 200 OK success</returns>
         /// <returns>Returns 400 Bad Request error</returns>
         /// <returns>Returns 500 Internal Server Error</returns>
@@ -96,7 +96,6 @@ namespace alpha_api.Controllers
            await service.UpdateAsync(unit);
             return unit;
         }
-
 
         /// <summary>
         /// Deletes a unit

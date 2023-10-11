@@ -28,6 +28,14 @@ namespace alpha_api.Controllers
             this.configuration = configuration;
         }
 
+        /// <summary>
+        /// Sign in
+        /// </summary>
+        /// <param name="request">A request with username and password</param>
+        /// <returns>Returns a token if authentication succeeds</returns>
+        /// <returns>Returns 200 OK success</returns>
+        /// <returns>Returns 400 Bad Request error</returns>
+        /// <returns>Returns 500 Internal Server Error</returns>
         [HttpPost]
         [Route("account/signin")]
         public async Task<IActionResult> SignIn(SignInRequest request)
