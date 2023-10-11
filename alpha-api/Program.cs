@@ -1,3 +1,4 @@
+using alpha_api.Core;
 using alpha_api.Core.Visualization;
 using alpha_api.Data;
 using alpha_api.Models;
@@ -29,6 +30,7 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJw
 });
 builder.Services.AddDbContext<AlphaContext>();
 
+builder.Services.AddTransient<IAuthentication, Authentication>();
 builder.Services.AddTransient<IRepository<Entry>, EntryRepository>();
 builder.Services.AddTransient<IRepository<Unit>, UnitRepository>();
 builder.Services.AddTransient<IRepository<Stat>, StatRepository>();

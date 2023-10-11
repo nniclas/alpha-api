@@ -18,13 +18,15 @@ namespace alpha_api.Controllers
     //[RequiredScope(RequiredScopesConfigurationKey = "AzureAd:Scopes")]
     public class AccountController : ControllerBase
     {
+        private readonly IConfiguration configuration;
+        private readonly IAuthentication authentication;
         private readonly IUserService userService;
-        public IConfiguration configuration;
 
-        public AccountController(IUserService service, IConfiguration configuration)
+        public AccountController( IAuthentication authentication, IConfiguration configuration, IUserService service)
         {
-            this.userService = service;
             this.configuration = configuration;
+            this.authentication = authentication;
+            this.userService = service;
         }
 
         /// <summary>
@@ -37,16 +39,16 @@ namespace alpha_api.Controllers
         /// <returns>Returns 500 Internal Server Error</returns>
         [HttpPost]
         [Route("account/signin")]
-        public async Task<IActionResult> SignIn(SignInRequest request)
+        public async Task<ObjectResult> SignIn(SignInRequest request)
         {
             var user = await this.userService.GetByEmailAsync(request.Email);
             if (user == null || request.Email == null || request.Password == null)
                 return BadRequest("Invalid request");
 
-            if (!Authentication.VerifyUser(user, request.Password))
+            if (!authentication.VerifyUser(user, request.Password))
                 return BadRequest("Invalid credentials");
 
-            return Ok(Authentication.CreateToken(user, configuration.GetSection("Identity").Get<Identity>()!));
+            return Ok(authentication.CreateToken(user, configuration.GetSection("Identity").Get<Identity>()!));
         }
     }
 

@@ -15,9 +15,9 @@ using alpha_api.Controllers;
 
 namespace alpha_api.Core
 {
-    public class Authentication
+    public class Authentication : IAuthentication
     {
-        public static User CreateUser(string email, string password)
+        public User CreateUser(string email, string password)
         {
             var hash = BCrypt.Net.BCrypt.HashPassword(password);
             return new User 
@@ -29,14 +29,18 @@ namespace alpha_api.Core
             };
         }
 
-        public static bool VerifyUser(User user, string passwordInput)
+        public bool VerifyUser(User user, string passwordInput)
         {
+            if (user.Hash == null)
+                return false;   
+
             if (BCrypt.Net.BCrypt.Verify(passwordInput, user.Hash))
                 return true;
+
             return false;
         }
 
-        public static string CreateToken(User user, Identity identity)
+        public string CreateToken(User user, Identity identity)
         {
             //create claims details based on the user information
             var claims = new[] {
