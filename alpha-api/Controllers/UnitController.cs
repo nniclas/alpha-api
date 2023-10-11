@@ -8,7 +8,7 @@ using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
 
 namespace alpha_api.Controllers
 {
-    //[Authorize]
+    [Authorize]
     [ApiController]
     [Route("units")]
     //[RequiredScope(RequiredScopesConfigurationKey = "AzureAd:Scopes")]

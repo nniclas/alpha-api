@@ -6,16 +6,27 @@ using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
+using Microsoft.IdentityModel.Tokens;
 using System.Configuration;
 using System.Diagnostics;
+using System.Text;
 using System.Text.Json.Serialization;
 
 var builder = WebApplication.CreateBuilder(args);
 
-//// Add services to the container.
-//builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-//    .AddJwtBearer();
-
+builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(options =>
+{
+    options.RequireHttpsMetadata = false;
+    options.SaveToken = true;
+    options.TokenValidationParameters = new TokenValidationParameters()
+    {
+        ValidateIssuer = true,
+        ValidateAudience = true,
+        ValidAudience = builder.Configuration["Identity:Audience"],
+        ValidIssuer = builder.Configuration["Identity:Issuer"],
+        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Identity:Key"]))
+    };
+});
 builder.Services.AddDbContext<AlphaContext>();
 
 builder.Services.AddTransient<IRepository<Entry>, EntryRepository>();
@@ -60,6 +71,7 @@ app.UseCors(policy => policy.AllowAnyHeader()
                             .SetIsOriginAllowed(origin => true)
                             .AllowCredentials());
 
+app.UseAuthentication();
 app.UseAuthorization();
 app.MapControllers();
 

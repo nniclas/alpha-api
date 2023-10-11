@@ -14,7 +14,6 @@ using alpha_api.Core;
 
 namespace alpha_api.Controllers
 {
-    //[Authorize]
     [ApiController]
     //[RequiredScope(RequiredScopesConfigurationKey = "AzureAd:Scopes")]
     public class AccountController : ControllerBase
