@@ -59,7 +59,7 @@ namespace alpha_api.Core
                 identity.Issuer,
                 identity.Audience,
                 claims,
-                expires: DateTime.UtcNow.AddMinutes(10),
+                expires: DateTime.UtcNow.AddMinutes(30),
                 signingCredentials: signIn);
 
             return new JwtSecurityTokenHandler().WriteToken(token);
