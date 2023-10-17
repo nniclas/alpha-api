@@ -81,7 +81,7 @@ namespace alpha_api.Core.Visualization
             switch (res)
             {
                 case (Resolution.Week): return date.DayOfWeek.ToString();
-                case (Resolution.Month): return $"W {date.IsoWeek()}";
+                case (Resolution.Month): return date.IsoWeek().ToString(); //$"W {date.IsoWeek()}"
                 case (Resolution.Quarter): return MONTHS.ToList()[date.Month - 1];
             }
             return date.ToString();

@@ -9,7 +9,7 @@ using System.Xml.Linq;
 
 namespace alpha_api.Controllers
 {
-    //[Authorize]
+    [Authorize]
     [ApiController]
     [Route("stats")]
     //[RequiredScope(RequiredScopesConfigurationKey = "AzureAd:Scopes")]

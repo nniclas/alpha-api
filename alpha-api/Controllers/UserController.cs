@@ -7,7 +7,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace alpha_api.Controllers
 {
-    //[Authorize]
+    [Authorize]
     [ApiController]
     [Route("users")]
     //[RequiredScope(RequiredScopesConfigurationKey = "AzureAd:Scopes")]
