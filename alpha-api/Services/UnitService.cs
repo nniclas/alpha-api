@@ -1,6 +1,7 @@
 ﻿using alpha_api.Data;
 using alpha_api.Models;
 using Microsoft.EntityFrameworkCore;
+using System.Linq;
 
 namespace alpha_api.Services
 {
@@ -34,6 +35,13 @@ namespace alpha_api.Services
 
         public async Task<Unit> UpdateAsync(Unit unit) 
         {
+            ///////////// DEMO (user access WIP) //////////////
+            /// PERSIST THE FIRST 4 UNITS /////////////////////
+            if (unit.Id <= 4) 
+                return null;
+            //////////////// DEMO (user access WIP) ///////////
+            ///////////////////////////////////////////////////
+            ///
             try
             {
                 var u = await repository.UpdateAsync(unit);
@@ -47,7 +55,13 @@ namespace alpha_api.Services
         }
             
         public async Task<bool> DeleteAsync(int id) 
-        { 
+        {
+            ///////////// DEMO (user access WIP) //////////////
+            /// PERSIST THE FIRST 4 UNITS /////////////////////
+            if (id <= 4) return false;
+            //////////////// DEMO (user access WIP) ///////////
+            ///////////////////////////////////////////////////
+
             return await repository.DeleteAsync(id); 
         }
 
