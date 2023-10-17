@@ -29,19 +29,31 @@ namespace alpha_api.Services
 
         public async Task<Unit> AddAsync(Unit unit)
         {
+            ///////////////////////////////////////////////////
+            ///////////// DEMO (user access WIP) //////////////
+            /// MAX 6 UNITS ///////////////////////////////////
+            var units = await repository.GetAllAsync();
+            if (units.ToList().Count >= 6)
+                return null;
+            //////////////// DEMO (user access WIP) ///////////
+            ///////////////////////////////////////////////////
+            ///////////////////////////////////////////////////
+
             var u = await repository.CreateAsync(unit);
             return u;
         }
 
         public async Task<Unit> UpdateAsync(Unit unit) 
         {
+            ///////////////////////////////////////////////////
             ///////////// DEMO (user access WIP) //////////////
             /// PERSIST THE FIRST 4 UNITS /////////////////////
             if (unit.Id <= 4) 
                 return null;
             //////////////// DEMO (user access WIP) ///////////
             ///////////////////////////////////////////////////
-            ///
+            //////////////////////////////////////////////////////
+
             try
             {
                 var u = await repository.UpdateAsync(unit);
@@ -56,11 +68,13 @@ namespace alpha_api.Services
             
         public async Task<bool> DeleteAsync(int id) 
         {
+            ///////////////////////////////////////////////////
             ///////////// DEMO (user access WIP) //////////////
             /// PERSIST THE FIRST 4 UNITS /////////////////////
             if (id <= 4) return false;
             //////////////// DEMO (user access WIP) ///////////
             ///////////////////////////////////////////////////
+            //////////////////////////////////////////////////////
 
             return await repository.DeleteAsync(id); 
         }
