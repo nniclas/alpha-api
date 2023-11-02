@@ -1,8 +1,3 @@
-<div align="center">
-  <br>
-  <img src="./src/assets/logo.svg" alt="Markdownify" width="200">
-  <br><br>
-  <h1>Alpha Backend</h1>
 
 see [Frontend readme](https://github.com/nniclas/alpha/)
 <br>
@@ -15,4 +10,4 @@ see [Frontend readme](https://github.com/nniclas/alpha/)
 
 ## Copyright
 
-nniclas / uicso © Copyright 2023 | Frontend, Backend
+nniclas / uicso Â© Copyright 2023 | Frontend, Backend
